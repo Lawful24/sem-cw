@@ -2,6 +2,6 @@
 workflow check
 <ul>
     <li>
-        ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/Lawful24/sem-cw/SEM%20Coursework%20Workflow/master)
+        [![SEM Coursework Workflow](https://github.com/Lawful24/sem-cw/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/Lawful24/sem-cw/actions/workflows/main.yml)
     </li>
 </ul>
