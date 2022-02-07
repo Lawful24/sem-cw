@@ -18,6 +18,6 @@ jobs:
       - name: Build
         run: docker build -t cw .
       - name: Run image
-        run: docker run --name cwcontainer -d cwimage
+        run: docker run --name cwcontainer -d cw
       - name: view logs
         run: docker logs cwcontainer
