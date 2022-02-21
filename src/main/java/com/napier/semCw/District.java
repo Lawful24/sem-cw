@@ -2,6 +2,11 @@ package com.napier.semCw;
 
 import java.util.ArrayList;
 
+/**
+ * @author : Mate Botond Nemeth
+ * @date : 21/02/2022
+ * District class
+ */
 public class District {
 
     private String name;
@@ -10,6 +15,9 @@ public class District {
 
     private ArrayList<City> cities;
 
+    /**
+     * Constructor for the District class
+     */
     public District()
     {
         name = "";
@@ -20,26 +28,44 @@ public class District {
     }
 
 
+    /**
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * @return country
+     */
     public Country getCountry() {
         return country;
     }
 
+    /**
+     * @param country
+     */
     public void setCountry(Country country) {
         this.country = country;
     }
 
+    /**
+     * @return cities
+     */
     public List<City> getCities() {
         return cities;
     }
 
+    /**
+     * @param cities
+     */
     public void setCities(List<City> cities) {
         this.cities = cities;
     }
