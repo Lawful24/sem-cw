@@ -1,6 +1,6 @@
 package com.napier.semCw;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class District {
 
@@ -8,7 +8,7 @@ public class District {
 
     private Country country;
 
-    private List<City> cities;
+    private ArrayList<City> cities;
 
     public District()
     {
@@ -16,7 +16,7 @@ public class District {
 
         country = new Country();
 
-        cities = new List<City>();
+        cities = new ArrayList<City>();
     }
 
 
