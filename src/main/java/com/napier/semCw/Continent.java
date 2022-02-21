@@ -39,34 +39,58 @@ public class Continent {
         name = "";
     }
 
+    /**
+     * @return population
+     */
     public int getPopulation() {
         return population;
     }
 
+    /**
+     * @param population
+     */
     public void setPopulation(int population) {
         this.population = population;
     }
 
+    /**
+     * @return countries
+     */
     public ArrayList<Country> getCountries() {
         return countries;
     }
 
+    /**
+     * @param countries
+     */
     public void setCountries(ArrayList<Country> countries) {
         this.countries = countries;
     }
 
+    /**
+     * @return regions
+     */
     public ArrayList<Region> getRegions() {
         return regions;
     }
 
+    /**
+     * @param regions
+     */
     public void setRegions(ArrayList<Region> regions) {
         this.regions = regions;
     }
 
+    /**
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return name
+     */
     public void setName(String name) {
         this.name = name;
     }
