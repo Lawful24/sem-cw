@@ -59,14 +59,14 @@ public class District {
     /**
      * @return cities
      */
-    public List<City> getCities() {
+    public ArrayList<City> getCities() {
         return cities;
     }
 
     /**
      * @param cities
      */
-    public void setCities(List<City> cities) {
+    public void setCities(ArrayList<City> cities) {
         this.cities = cities;
     }
 }
