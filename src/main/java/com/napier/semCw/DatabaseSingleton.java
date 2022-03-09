@@ -5,10 +5,25 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseSingleton {
+    private static DatabaseSingleton instance;
+
     /**
      * Connection to MySQL database.
      */
     private Connection con = null;
+
+    private DatabaseSingleton(){}
+
+
+    public static DatabaseSingleton getInstance() {
+        if (instance == null) {
+            instance = new DatabaseSingleton();
+        }
+
+        return instance;
+    }
+
+    /* Methods */
 
     /**
      * Connect to the MySQL database.
