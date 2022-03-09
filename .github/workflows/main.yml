@@ -15,9 +15,5 @@ jobs:
           distribution: 'adopt'
       - name: Build with Maven
         run: mvn package
-      - name: Build
-        run: docker build -t cw .
-      - name: Run image
-        run: docker run --name cwcontainer -d cw
-      - name: view logs
-        run: docker logs cwcontainer
+      - name: Run docker compose
+        run: docker-compose up --abort-on-container-exit
