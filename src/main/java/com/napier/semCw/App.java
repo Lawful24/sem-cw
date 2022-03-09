@@ -13,6 +13,7 @@ public class App {
 
         // Collect all countries from the database
         ArrayList<Country> countries = db.getAllCountriesFromDatabase();
+        db.printAllCountries(countries);
 
         // Disconnect from database
         db.disconnect();

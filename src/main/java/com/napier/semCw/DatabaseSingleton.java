@@ -104,4 +104,15 @@ public class DatabaseSingleton {
             return null;
         }
     }
+
+    /**
+     * Output of all previously retrieved countries.
+     * @param countries: a list of countries extracted from the database
+     */
+    public void printAllCountries(ArrayList<Country> countries) {
+        System.out.printf("%-3s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+        for (Country c : countries) {
+            System.out.printf("%-3s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+        }
+    }
 }
