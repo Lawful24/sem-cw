@@ -11,6 +11,9 @@ public class App {
         // Connect to database
         db.connect();
 
+        // Collect all countries from the database
+        ArrayList<Country> countries = db.getAllCountriesFromDatabase();
+
         // Disconnect from database
         db.disconnect();
     }

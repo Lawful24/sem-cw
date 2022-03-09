@@ -82,11 +82,11 @@ public class Region {
      * Collects the capital cities located in a region
      * @return List of all capital cities in a region
      */
-    public ArrayList<String> getCapitalCities() {
-        ArrayList<String> capitals = new ArrayList<String>();
+    public ArrayList<Integer> getCapitalCities() {
+        ArrayList<Integer> capitals = new ArrayList<>();
 
         for (Country c : this.countries) {
-            capitals.add(c.getCapital());
+            capitals.add(c.getCapitalID());
         }
 
         return capitals;

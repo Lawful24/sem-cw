@@ -1,8 +1,8 @@
 package com.napier.semCw;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseSingleton {
     private static DatabaseSingleton instance;
@@ -67,6 +67,41 @@ public class DatabaseSingleton {
             } catch (Exception e) {
                 System.out.println("Error closing connection to database");
             }
+        }
+    }
+
+    /**
+     * Gets all current countries
+     * @return A list of all current countries in the world, or null in case of an error.
+     */
+    public ArrayList<Country> getAllCountriesFromDatabase() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM country ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract country information
+            ArrayList<Country> countries = new ArrayList<Country>();
+            while (rset.next()) {
+                Country c = new Country();
+                c.code = rset.getString("country.Code");
+                c.name = rset.getString("country.Name");
+                c.continent = rset.getString("country.Continent");
+                c.region = rset.getString("country.Region");
+                c.population = rset.getInt("country.Population");
+                c.capitalID = rset.getInt("country.Capital");
+                c.language = "";
+                countries.add(c);
+            }
+            return countries;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get salary details");
+            return null;
         }
     }
 }

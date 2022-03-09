@@ -10,7 +10,7 @@ public class Country {
     /**
      * Country code
      */
-    public int code;
+    public String code;
 
     /**
      * Country name
@@ -35,7 +35,7 @@ public class Country {
     /**
      * Country's capital
      */
-    public String capital;
+    public int capitalID;
 
     /**
      * Country language
@@ -46,7 +46,7 @@ public class Country {
      * Getter country code
      * @return code
      */
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
@@ -54,7 +54,7 @@ public class Country {
      * Setter country code
      * @param code
      */
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -126,16 +126,16 @@ public class Country {
      * Getter country capital
      * @return capital
      */
-    public String getCapital() {
-        return capital;
+    public int getCapitalID() {
+        return capitalID;
     }
 
     /**
      * Setter country capital
-     * @param capital
+     * @param capitalID
      */
-    public void setCapital(String capital) {
-        this.capital = capital;
+    public void setCapitalID(int capitalID) {
+        this.capitalID = capitalID;
     }
 
     /**
@@ -166,7 +166,7 @@ public class Country {
                 ", continent='" + continent + '\'' +
                 ", region='" + region + '\'' +
                 ", population=" + population +
-                ", capital='" + capital + '\'' +
+                ", capital='" + capitalID + '\'' +
                 ", language='" + language + '\'' +
                 '}';
     }
