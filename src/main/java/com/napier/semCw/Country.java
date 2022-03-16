@@ -155,6 +155,19 @@ public class Country {
     }
 
     /**
+     * Compares the population attribute of two Country objects
+     * @param country: another object to compare the current one to
+     * @return The code of the country with the larger population.
+     */
+    public Country comparePopulationTo(Country country) {
+        if (this.population > country.population) {
+            return this;
+        } else {
+            return country;
+        }
+    }
+
+    /**
      * toString method
      * @return string containing all country information
      */

@@ -12,7 +12,8 @@ public class App {
         db.connect();
 
         // Collect all countries from the database
-        ArrayList<Country> countries = db.getAllCountriesFromDatabase(true);
+        ArrayList<Country> countries = db.getAllCountriesFromDatabase();
+        db.sortCountriesByPopulation(countries);
         db.printAllCountriesInRegion(countries, "Polynesia");
 
         // Disconnect from database

@@ -2,8 +2,6 @@ package com.napier.semCw;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class DatabaseSingleton {
     private static DatabaseSingleton instance;
@@ -13,7 +11,8 @@ public class DatabaseSingleton {
      */
     private Connection con = null;
 
-    private DatabaseSingleton(){}
+    private DatabaseSingleton() {
+    }
 
 
     public static DatabaseSingleton getInstance() {
@@ -73,27 +72,17 @@ public class DatabaseSingleton {
 
     /**
      * Gets all current countries
-     * @param isSortedByPopulation: tells the method whether it should return a sorted array or not
+     *
      * @return A list of all current countries in the world, or null in case of an error.
      */
-    public ArrayList<Country> getAllCountriesFromDatabase(boolean isSortedByPopulation) {
+    public ArrayList<Country> getAllCountriesFromDatabase() {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
-            String strSelect;
-            if (isSortedByPopulation) {
-                // Create string for SQL statement
-                strSelect =
-                        "SELECT * "
-                                + "FROM country "
-                                + "ORDER BY country.population "
-                                + "DESC";
-            } else {
-                strSelect =
-                        "SELECT * "
-                                + "FROM country ";
-            }
-
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM country";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Extract country information
@@ -118,7 +107,27 @@ public class DatabaseSingleton {
     }
 
     /**
+     * Sorts the countries extracted from the database by population count. Descending order
+     *
+     * @param countries: a list of countries extracted from the database
+     */
+    public void sortCountriesByPopulation(ArrayList<Country> countries) {
+        boolean sorted = false;
+        while (!sorted) {
+            sorted = true;
+            // Reverse bubble sort
+            for (int i = countries.size() - 1; i > 0; i--) {
+                if (countries.get(i).code.equals(countries.get(i).comparePopulationTo(countries.get(i - 1)).code)) {
+                    countries.set(i - 1, countries.set(i, countries.get(i - 1))); // switch adjacent elements
+                    sorted = false; // flip flag if an element was modified
+                }
+            }
+        }
+    }
+
+    /**
      * Output of all previously retrieved countries.
+     *
      * @param countries: a list of countries extracted from the database
      */
     public void printAllCountries(ArrayList<Country> countries) {
@@ -126,13 +135,12 @@ public class DatabaseSingleton {
         for (Country c : countries) {
             System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
         }
-
-
     }
 
     /**
      * Output of all previously retrieved countries, but in a given continent.
-     * @param countries: a list of countries extracted from the database
+     *
+     * @param countries:     a list of countries extracted from the database
      * @param continentName: the name of the continent to print the countries of
      */
     public void printAllCountries(ArrayList<Country> countries, String continentName) {
@@ -146,7 +154,8 @@ public class DatabaseSingleton {
 
     /**
      * Output of all previously retrieved countries, but in a given region.
-     * @param countries: a list of countries extracted from the database
+     *
+     * @param countries:  a list of countries extracted from the database
      * @param regionName: the name of the region to print the countries of
      */
     public void printAllCountriesInRegion(ArrayList<Country> countries, String regionName) {
