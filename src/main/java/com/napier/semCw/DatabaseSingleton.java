@@ -115,4 +115,18 @@ public class DatabaseSingleton {
             System.out.printf("%-3s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
         }
     }
+
+    /**
+     * Output of all previously retrieved countries, but in a given continent.
+     * @param countries: a list of countries extracted from the database
+     * @param continentName: the name of the continent to print the countries of
+     */
+    public void printAllCountries(ArrayList<Country> countries, String continentName) {
+        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+        for (Country c : countries) {
+            if (continentName.equals(c.continent)) {
+                System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+            }
+        }
+    }
 }
