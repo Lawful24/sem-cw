@@ -167,6 +167,12 @@ public class DatabaseSingleton {
         }
     }
 
+    /**
+     * Output a given amount of countries, ranked by population count
+     *
+     * @param sortedList: a list of countries extracted from the database, but already sorted by population
+     * @param n: the amount of countries the user wishes to print
+     */
     public void printTopNPopulatedCountries(ArrayList<Country> sortedList, int n) {
         System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
         for (int i = 0; i < n; i++) {
@@ -177,6 +183,71 @@ public class DatabaseSingleton {
                     sortedList.get(i).region,
                     sortedList.get(i).population,
                     sortedList.get(i).capitalID);
+        }
+    }
+
+    /**
+     * Gets all current cities
+     *
+     * @return A list of all current cities in the world, or null in case of an error.
+     */
+    public ArrayList<City> getAllCitiesFromDatabase() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM city";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract country information
+            ArrayList<City> cities = new ArrayList<City>();
+            while (rset.next()) {
+                City c = new City(); // id, name, country, district, population
+                c.setId(rset.getInt("city.ID"));
+                c.setName(rset.getString("city.Name"));
+                c.setCountryCode(rset.getString("city.CountryCode"));
+                c.setDistrictName(rset.getString("city.District"));
+                c.setPopulation(rset.getInt("city.Population"));
+                cities.add(c);
+            }
+            return cities;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get salary details");
+            return null;
+        }
+    }
+
+    /**
+     * Output of all previously retrieved cities.
+     *
+     * @param cities: a list of cities extracted from the database
+     */
+    public void printAllCities(ArrayList<City> cities) {
+        System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
+        for (City c : cities) {
+            System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", c.getId(), c.getName(), c.getCountryCode(), c.getDistrictName(), c.getPopulation());
+        }
+    }
+
+    /**
+     * Sorts the cities extracted from the database by population count. Descending order
+     *
+     * @param cities: a list of cities extracted from the database
+     */
+    public void sortCitiesByPopulation(ArrayList<City> cities) {
+        boolean sorted = false;
+        while (!sorted) {
+            sorted = true;
+            // Reverse bubble sort
+            for (int i = cities.size() - 1; i > 0; i--) {
+                if (cities.get(i).getId() == cities.get(i).comparePopulationTo(cities.get(i - 1)).getId()) {
+                    cities.set(i - 1, cities.set(i, cities.get(i - 1))); // switch adjacent elements
+                    sorted = false; // flip flag if an element was modified
+                }
+            }
         }
     }
 }

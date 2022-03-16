@@ -4,17 +4,16 @@ import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-
         DatabaseSingleton db = DatabaseSingleton.getInstance();
 
         // Connect to database
         db.connect();
 
-        // Collect all countries from the database
-        ArrayList<Country> countries = db.getAllCountriesFromDatabase();
-        db.sortCountriesByPopulation(countries);
-        db.printTopNPopulatedCountries(countries, 10);
+        // Collect all cities from the database
+        ArrayList<City> cities = db.getAllCitiesFromDatabase();
+        // Sort all cities from largest population count to smallest
+        db.sortCitiesByPopulation(cities);
+        db.printAllCities(cities);
 
         // Disconnect from database
         db.disconnect();

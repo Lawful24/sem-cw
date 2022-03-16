@@ -11,9 +11,9 @@ public class City {
 
     private String name;
 
-    private Country country;
+    private String countryCode;
 
-    private District district;
+    private String districtName;
 
     private int population;
 
@@ -24,8 +24,8 @@ public class City {
     {
         id = 0;
         name = "";
-        country = new Country();
-        district = new District();
+        countryCode = "";
+        districtName = "";
         population = 0;
     }
 
@@ -61,29 +61,29 @@ public class City {
     /**
      * @return country
      */
-    public Country getCountry() {
-        return country;
+    public String getCountryCode() {
+        return countryCode;
     }
 
     /**
-     * @param country
+     * @param countryCode
      */
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     /**
      * @return district
      */
-    public District getDistrict() {
-        return district;
+    public String getDistrictName() {
+        return districtName;
     }
 
     /**
-     * @param district
+     * @param districtName
      */
-    public void setDistrict(District district) {
-        this.district = district;
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
     }
 
     /**
@@ -98,5 +98,19 @@ public class City {
      */
     public void setPopulation(int population) {
         this.population = population;
+    }
+
+    /**
+     * Compares the population attribute of two City objects
+     *
+     * @param city: another object to compare the current one to
+     * @return The ID of the city with the larger population.
+     */
+    public City comparePopulationTo(City city) {
+        if (this.population > city.population) {
+            return this;
+        } else {
+            return city;
+        }
     }
 }
