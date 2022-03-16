@@ -143,4 +143,18 @@ public class DatabaseSingleton {
             }
         }
     }
+
+    /**
+     * Output of all previously retrieved countries, but in a given region.
+     * @param countries: a list of countries extracted from the database
+     * @param regionName: the name of the region to print the countries of
+     */
+    public void printAllCountriesInRegion(ArrayList<Country> countries, String regionName) {
+        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+        for (Country c : countries) {
+            if (regionName.equals(c.region)) {
+                System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+            }
+        }
+    }
 }

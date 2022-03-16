@@ -13,7 +13,7 @@ public class App {
 
         // Collect all countries from the database
         ArrayList<Country> countries = db.getAllCountriesFromDatabase(true);
-        db.printAllCountries(countries, "Europe");
+        db.printAllCountriesInRegion(countries, "Polynesia");
 
         // Disconnect from database
         db.disconnect();
