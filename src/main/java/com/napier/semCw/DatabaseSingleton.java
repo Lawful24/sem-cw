@@ -2,6 +2,7 @@ package com.napier.semCw;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DatabaseSingleton {
@@ -72,16 +73,27 @@ public class DatabaseSingleton {
 
     /**
      * Gets all current countries
+     * @param isSortedByPopulation: tells the method whether it should return a sorted array or not
      * @return A list of all current countries in the world, or null in case of an error.
      */
-    public ArrayList<Country> getAllCountriesFromDatabase() {
+    public ArrayList<Country> getAllCountriesFromDatabase(boolean isSortedByPopulation) {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "SELECT * "
-                            + "FROM country ";
+            String strSelect;
+            if (isSortedByPopulation) {
+                // Create string for SQL statement
+                strSelect =
+                        "SELECT * "
+                                + "FROM country "
+                                + "ORDER BY country.population "
+                                + "DESC";
+            } else {
+                strSelect =
+                        "SELECT * "
+                                + "FROM country ";
+            }
+
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Extract country information
@@ -110,10 +122,12 @@ public class DatabaseSingleton {
      * @param countries: a list of countries extracted from the database
      */
     public void printAllCountries(ArrayList<Country> countries) {
-        System.out.printf("%-3s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
         for (Country c : countries) {
-            System.out.printf("%-3s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
         }
+
+
     }
 
     /**
