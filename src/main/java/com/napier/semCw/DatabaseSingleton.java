@@ -166,4 +166,17 @@ public class DatabaseSingleton {
             }
         }
     }
+
+    public void printTopNPopulatedCountries(ArrayList<Country> sortedList, int n) {
+        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+        for (int i = 0; i < n; i++) {
+            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n",
+                    sortedList.get(i).code,
+                    sortedList.get(i).name,
+                    sortedList.get(i).continent,
+                    sortedList.get(i).region,
+                    sortedList.get(i).population,
+                    sortedList.get(i).capitalID);
+        }
+    }
 }
