@@ -13,7 +13,7 @@ public class App {
         ArrayList<City> cities = db.getAllCitiesFromDatabase();
         // Sort all cities from largest population count to smallest
         db.sortCitiesByPopulation(cities);
-        db.printAllCities(cities);
+        db.printTopNPopulatedCities(cities, 10);
 
         // Disconnect from database
         db.disconnect();

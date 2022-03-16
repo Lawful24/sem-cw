@@ -250,4 +250,32 @@ public class DatabaseSingleton {
             }
         }
     }
+
+    /**
+     * Output a given amount of cities, ranked by population count
+     *
+     * @param cities: a list of cities extracted from the database
+     * @param n: the amount of cities the user wishes to print
+     */
+    public void printTopNPopulatedCities(ArrayList<City> cities, int n) {
+        if (n <= cities.size() && n > 0) {
+            // Sort the list in case it hasn't been sorted yet
+            sortCitiesByPopulation(cities);
+
+            // Print out given amount of records
+            System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
+            for (int i = 0; i < n; i++) {
+                System.out.printf("%-5s %-35s %-11s %-20s %-10s%n",
+                        cities.get(i).getId(),
+                        cities.get(i).getName(),
+                        cities.get(i).getCountryCode(),
+                        cities.get(i).getDistrictName(),
+                        cities.get(i).getPopulation());
+            }
+        } else if (n > cities.size()) {
+            System.out.println("There are only " + cities.size() + " cities stored in the database.");
+        } else {
+            System.out.println("Please enter a valid number.");
+        }
+    }
 }
