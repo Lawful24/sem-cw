@@ -440,4 +440,49 @@ public class DatabaseSingleton {
             System.out.println("Failed to get the population of the country");
         }
     }
+
+    /**
+     * Gets all current languages
+     *
+     * @return A list of all current languages in the world, or null in case of an error.
+     */
+    public ArrayList<Language> getAllLanguagesFromDatabase() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM countrylanguage";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract language information
+            ArrayList<Language> languages = new ArrayList<Language>();
+            while (rset.next()) {
+                languages.add(new Language(
+                        rset.getString("countrylanguage.CountryCode"),
+                        rset.getString("countrylanguage.Language"),
+                        rset.getString("countrylanguage.IsOfficial").equals("T"),
+                        rset.getDouble("countrylanguage.Percentage")
+                ));
+            }
+            return languages;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get language data");
+            return null;
+        }
+    }
+
+    /**
+     * Output of all previously retrieved languages.
+     *
+     * @param languages: a list of languages extracted from the database
+     */
+    public void printAllLanguages(ArrayList<Language> languages) {
+        System.out.printf("%-12s %-30s %-11s %-10s%n", "Country Code", "Language", "Is Official", "Percentage");
+        for (Language l : languages) {
+            System.out.printf("%-12s %-30s %-11s %-10s%n", l.getCountryCode(), l.getLanguage(), l.isOfficial(), l.getPercentage());
+        }
+    }
 }
