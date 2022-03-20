@@ -1,4 +1,4 @@
-package com.napier.semcw;
+package com.napier.semCw;
 
 import org.junit.jupiter.api.Test;
 
