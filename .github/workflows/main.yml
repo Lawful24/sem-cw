@@ -1,5 +1,11 @@
 name: SEM Coursework Workflow
-on: push
+on:
+  push:
+    branches:
+      - master
+      - release
+      - develop
+      - feature/
 
 jobs:
   UnitTests:
@@ -16,7 +22,29 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Unit Tests
-        run: mvn -Dtest=com.napier.sem.UnitTest test
+        run: mvn -Dtest=com.napier.semCw.UnitTest test
+
+  IntegrationTests:
+    name: Integration Tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Integration Tests
+        run: |
+          docker build -t database ./db 
+          docker run --name world -dp 33060:3306 database
+          mvn -Dtest=com.napier.semCw.AppIntegrationTest test
+          docker stop world
+          docker rm world
+          docker image rm database
 
   build:
     name: Build and Start Using docker-compose
