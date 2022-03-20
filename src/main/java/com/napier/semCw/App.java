@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) {
-        DatabaseSingleton db = new DatabaseSingleton();
+        DatabaseSingleton db = DatabaseSingleton.getInstance();
 
         // Connect to database
         if(args.length < 1) {
