@@ -485,4 +485,58 @@ public class DatabaseSingleton {
             System.out.printf("%-12s %-30s %-11s %-10s%n", l.getCountryCode(), l.getLanguage(), l.isOfficial(), l.getPercentage());
         }
     }
+
+    /**
+     * Prints the population of a city
+     *
+     * @param cityName: Name of the city
+     */
+    public void printPopulationOfCity(String cityName){
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM city"
+                            + "WHERE Name = " + cityName;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract country information
+            int population = 0;
+            population += rset.getInt("city.Population");
+            System.out.println("The population of the city is " + population);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get the population of the city");
+        }
+    }
+
+    /**
+     * Prints the population of a district
+     *
+     * @param districtName: Name of the district
+     */
+    public void printPopulationOfDistrict(String districtName){
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM city"
+                            + "WHERE District = " + districtName;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract country information
+            int population = 0;
+            while (rset.next()) {
+                population += rset.getInt("city.Population");
+            }
+            System.out.println("The population of the district is " + population);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get the population of the district");
+        }
+    }
 }
