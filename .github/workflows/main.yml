@@ -5,7 +5,7 @@ on:
       - master
       - release
       - develop
-      - feature/
+      - feature/*
 
 jobs:
   UnitTests:
