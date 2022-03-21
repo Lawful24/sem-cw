@@ -7,7 +7,11 @@ public class App {
         DatabaseSingleton db = DatabaseSingleton.getInstance();
 
         // Connect to database
-        db.connect();
+        if(args.length < 1) {
+            db.connect("localhost:33060", 30000);
+        } else {
+            db.connect(args[0], Integer.parseInt(args[1]));
+        }
 
         // Collect all languages from the database
         ArrayList<Language> languages = db.getAllLanguagesFromDatabase();
