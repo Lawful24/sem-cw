@@ -130,9 +130,17 @@ public class DatabaseSingleton {
      * @param countries: a list of countries extracted from the database
      */
     public void printAllCountries(ArrayList<Country> countries) {
-        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
-        for (Country c : countries) {
-            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+        if (countries != null) {
+            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+            for (Country c : countries) {
+                if (c != null) {
+                    System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+                } else {
+                    System.out.println("Missing element!");
+                }
+            }
+        } else {
+            System.out.println("Failed to print list, there was no argument provided.");
         }
     }
 

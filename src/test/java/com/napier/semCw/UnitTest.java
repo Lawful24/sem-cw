@@ -3,6 +3,7 @@ package com.napier.semCw;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,5 +82,39 @@ public class UnitTest {
             assertNotNull(l.getLanguage());
             assertTrue(l.getPercentage() >= 0);
         }
+    }
+
+    @Test
+    void printAllCountriesTestNull() {
+        db.printAllCountries(null);
+    }
+
+    @Test
+    void printAllCountriesTestEmpty() {
+        db.printAllCountries(new ArrayList<Country>());
+    }
+
+    @Test
+    void printAllCountriesTestContainsNull() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(null);
+        db.printAllCountries(countries);
+    }
+
+    @Test
+    void printAllCountries() {
+        Country c = new Country();
+        c.code = "ATA";
+        c.name = "Antarctica";
+        c.continent = "Antarctica";
+        c.region = "Antarctica";
+        c.population = 0;
+        c.capitalID = 0;
+        c.language = "";
+
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(c);
+
+        db.printAllCountries(countries);
     }
 }
