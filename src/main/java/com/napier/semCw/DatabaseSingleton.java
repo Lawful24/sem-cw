@@ -170,7 +170,7 @@ public class DatabaseSingleton {
      * Output a given amount of countries, ranked by population count
      *
      * @param sortedList: a list of countries extracted from the database, but already sorted by population
-     * @param n: the amount of countries the user wishes to print
+     * @param n:          the amount of countries the user wishes to print
      */
     public void printTopNPopulatedCountries(ArrayList<Country> sortedList, int n) {
         System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
@@ -225,9 +225,15 @@ public class DatabaseSingleton {
      * @param cities: a list of cities extracted from the database
      */
     public void printAllCities(ArrayList<City> cities) {
-        System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
-        for (City c : cities) {
-            System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", c.getId(), c.getName(), c.getCountryCode(), c.getDistrictName(), c.getPopulation());
+        if (cities == null) {
+            System.out.println("No cities");
+        } else {
+            System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
+            for (City c : cities) {
+                if (c == null)
+                    continue;
+                System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", c.getId(), c.getName(), c.getCountryCode(), c.getDistrictName(), c.getPopulation());
+            }
         }
     }
 
@@ -254,7 +260,7 @@ public class DatabaseSingleton {
      * Output a given amount of cities, ranked by population count
      *
      * @param cities: a list of cities extracted from the database
-     * @param n: the amount of cities the user wishes to print
+     * @param n:      the amount of cities the user wishes to print
      */
     public void printTopNPopulatedCities(ArrayList<City> cities, int n) {
         if (n <= cities.size() && n > 0) {
@@ -284,7 +290,7 @@ public class DatabaseSingleton {
      *
      * @param countryName: the name of the country
      */
-    public void printCountryReport(String countryName){
+    public void printCountryReport(String countryName) {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -308,7 +314,7 @@ public class DatabaseSingleton {
      *
      * @param cityName: the name of the city
      */
-    public void printCityReport(String cityName){
+    public void printCityReport(String cityName) {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -332,7 +338,7 @@ public class DatabaseSingleton {
      *
      * @param capitalCityName: the name of the capital city
      */
-    public void printCapitalCityReport(String capitalCityName){
+    public void printCapitalCityReport(String capitalCityName) {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -349,10 +355,10 @@ public class DatabaseSingleton {
                             + "WHERE Capital = " + rset.getInt("city.ID");
             // Execute SQL statement
             ResultSet rset2 = stmt.executeQuery(strSelect);
-            if(!rset2.getString("country.Name").isEmpty()) {
+            if (!rset2.getString("country.Name").isEmpty()) {
                 System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
                 System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", rset.getInt("city.ID"), rset.getString("city.Name"), rset.getString("city.CountryCode"), rset.getString("city.District"), rset.getInt("city.Population"));
-            }else{
+            } else {
                 System.out.println("Not capital");
             }
         } catch (Exception e) {
@@ -364,7 +370,7 @@ public class DatabaseSingleton {
     /**
      * Prints the population of the world
      */
-    public void printPopulationOfWorld(){
+    public void printPopulationOfWorld() {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -391,7 +397,7 @@ public class DatabaseSingleton {
      *
      * @param regionName: Name of the region
      */
-    public void printPopulationOfRegion(String regionName){
+    public void printPopulationOfRegion(String regionName) {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -419,7 +425,7 @@ public class DatabaseSingleton {
      *
      * @param countryName: Name of the country
      */
-    public void printPopulationOfCountry(String countryName){
+    public void printPopulationOfCountry(String countryName) {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -490,7 +496,7 @@ public class DatabaseSingleton {
      *
      * @param cityName: Name of the city
      */
-    public void printPopulationOfCity(String cityName){
+    public void printPopulationOfCity(String cityName) {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -516,7 +522,7 @@ public class DatabaseSingleton {
      *
      * @param districtName: Name of the district
      */
-    public void printPopulationOfDistrict(String districtName){
+    public void printPopulationOfDistrict(String districtName) {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -538,184 +544,224 @@ public class DatabaseSingleton {
             System.out.println("Failed to get the population of the district");
         }
     }
-    /**
-     *  all the cities in a country organised by largest to smallest
-     */
-    public ArrayList<City> getCitiesInCountryOrganisedByLargest(String countryName){
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "select world.city.`Name`, world.city.ID, world.city.`CountryCode`,world.city.`District`, world.city.`Population` "+
-                            " from world.city "+
-                            " join world.country on (world.city.`CountryCode`=world.country.`Code`) "+
-                            " where world.country.`Name` = '" + countryName +"' "+
-                            " order by world.city.`Population` DESC ";
 
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Extract language information
-            ArrayList<City> cities = new ArrayList<City>();
-            while (rset.next()) {
-                City city=new City();
-                city.setId(rset.getInt("city.ID")) ;
-                city.setName(rset.getString("city.Name"));
-                city.setCountryCode(rset.getString("city.CountryCode"));
-                city.setDistrictName(rset.getString("city.District"));
-                city.setPopulation(rset.getInt("city.Population"));
-                cities.add(city);
-            }
-            return cities;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get country data");
+    /**
+     * all the cities in a country organised by largest to smallest
+     */
+    public ArrayList<City> getCitiesInCountryOrganisedByLargest(String countryName) {
+        if (countryName == null || countryName=="") {
+            System.out.println("No country name.");
             return null;
         }
+        else {
+            try {
+                // Create an SQL statement
+                Statement stmt = con.createStatement();
+                // Create string for SQL statement
+                String strSelect =
+                        "select world.city.`Name`, world.city.ID, world.city.`CountryCode`,world.city.`District`, world.city.`Population` " +
+                                " from world.city " +
+                                " join world.country on (world.city.`CountryCode`=world.country.`Code`) " +
+                                " where world.country.`Name` = '" + countryName + "' " +
+                                " order by world.city.`Population` DESC ";
+
+                // Execute SQL statement
+                ResultSet rset = stmt.executeQuery(strSelect);
+                // Extract language information
+                ArrayList<City> cities = new ArrayList<City>();
+                while (rset.next()) {
+                    City city = new City();
+                    city.setId(rset.getInt("city.ID"));
+                    city.setName(rset.getString("city.Name"));
+                    city.setCountryCode(rset.getString("city.CountryCode"));
+                    city.setDistrictName(rset.getString("city.District"));
+                    city.setPopulation(rset.getInt("city.Population"));
+                    cities.add(city);
+                }
+                return cities;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Failed to get country data");
+                return null;
+            }
+        }
     }
+
     /**
      * all the cities in a region organised by largest to smallest
      */
     public ArrayList<City> getCitiesInRegionOrganisedByLargest(String regionName){
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "select world.city.`Name`, world.city.`ID`, world.city.`CountryCode`,world.city.`District`, world.city.`Population` "+
-                            " from world.city "+
-                            " join world.country on (world.city.`CountryCode`=world.country.`Code`) "+
-                            " where world.country.`Region` = '" + regionName +"' "+
-                            " order by world.city.`Population` DESC ";
-
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Extract language information
-            ArrayList<City> cities = new ArrayList<City>();
-            while (rset.next()) {
-                City city=new City();
-                city.setId(rset.getInt("city.ID")) ;
-                city.setName(rset.getString("city.Name"));
-                city.setCountryCode(rset.getString("city.CountryCode"));
-                city.setDistrictName(rset.getString("city.District"));
-                city.setPopulation(rset.getInt("city.Population"));
-                cities.add(city);
-            }
-            return cities;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get country data");
+        if (regionName == null || regionName=="") {
+            System.out.println("No region name.");
             return null;
         }
+        else {
+            try {
+                // Create an SQL statement
+                Statement stmt = con.createStatement();
+                // Create string for SQL statement
+                String strSelect =
+                        "select world.city.`Name`, world.city.`ID`, world.city.`CountryCode`,world.city.`District`, world.city.`Population` " +
+                                " from world.city " +
+                                " join world.country on (world.city.`CountryCode`=world.country.`Code`) " +
+                                " where world.country.`Region` = '" + regionName + "' " +
+                                " order by world.city.`Population` DESC ";
+
+                // Execute SQL statement
+                ResultSet rset = stmt.executeQuery(strSelect);
+                // Extract language information
+                ArrayList<City> cities = new ArrayList<City>();
+                while (rset.next()) {
+                    City city = new City();
+                    city.setId(rset.getInt("city.ID"));
+                    city.setName(rset.getString("city.Name"));
+                    city.setCountryCode(rset.getString("city.CountryCode"));
+                    city.setDistrictName(rset.getString("city.District"));
+                    city.setPopulation(rset.getInt("city.Population"));
+                    cities.add(city);
+                }
+                return cities;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Failed to get country data");
+                return null;
+            }
+        }
     }
+
     /**
      * all the cities in a continent organised by largest to smallest
      */
     public ArrayList<City> getCitiesInContinentOrganisedByLargest(String continentName){
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "select world.city.`Name`, world.city.`ID`, world.city.`CountryCode`,world.city.`District`, world.city.`Population` "+
-                            " from world.city "+
-                            " join world.country on (world.city.`CountryCode`=world.country.`Code`) "+
-                            " where world.country.`Continent` = '" + continentName +"' "+
-                            " order by world.city.`Population` DESC ";
-
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Extract language information
-            ArrayList<City> cities = new ArrayList<City>();
-            while (rset.next()) {
-                City city=new City();
-                city.setId(rset.getInt("city.ID")) ;
-                city.setName(rset.getString("city.Name"));
-                city.setCountryCode(rset.getString("city.CountryCode"));
-                city.setDistrictName(rset.getString("city.District"));
-                city.setPopulation(rset.getInt("city.Population"));
-                cities.add(city);
-            }
-            return cities;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get country data");
+        if (continentName == null || continentName=="") {
+            System.out.println("No continent name.");
             return null;
         }
+        else {
+            try {
+                // Create an SQL statement
+                Statement stmt = con.createStatement();
+                // Create string for SQL statement
+                String strSelect =
+                        "select world.city.`Name`, world.city.`ID`, world.city.`CountryCode`,world.city.`District`, world.city.`Population` " +
+                                " from world.city " +
+                                " join world.country on (world.city.`CountryCode`=world.country.`Code`) " +
+                                " where world.country.`Continent` = '" + continentName + "' " +
+                                " order by world.city.`Population` DESC ";
+
+                // Execute SQL statement
+                ResultSet rset = stmt.executeQuery(strSelect);
+                // Extract language information
+                ArrayList<City> cities = new ArrayList<City>();
+                while (rset.next()) {
+                    City city = new City();
+                    city.setId(rset.getInt("city.ID"));
+                    city.setName(rset.getString("city.Name"));
+                    city.setCountryCode(rset.getString("city.CountryCode"));
+                    city.setDistrictName(rset.getString("city.District"));
+                    city.setPopulation(rset.getInt("city.Population"));
+                    cities.add(city);
+                }
+                return cities;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Failed to get country data");
+                return null;
+            }
+        }
     }
+
     /**
      * all the capital cities in a region organised by largest to smallest
      */
     public ArrayList<City> getCapitalCitiesInRegionOrganisedByLargest(String regionName){
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "select world.city.`Name`, world.city.`ID`, world.city.`CountryCode`,world.city.`District`, world.city.`Population` "+
-                            " from world.city "+
-                            " join world.country on (world.city.`CountryCode`=world.country.`Code`) "+
-                            " where world.country.`Region` = '" + regionName +"' and "+
-                            " world.city.`ID`= world.country.`Capital` "+
-                            " order by world.city.`Population` DESC ";
-
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Extract language information
-            ArrayList<City> cities = new ArrayList<City>();
-            while (rset.next()) {
-                City city=new City();
-                city.setId(rset.getInt("city.ID")) ;
-                city.setName(rset.getString("city.Name"));
-                city.setCountryCode(rset.getString("city.CountryCode"));
-                city.setDistrictName(rset.getString("city.District"));
-                city.setPopulation(rset.getInt("city.Population"));
-                cities.add(city);
-            }
-            return cities;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get country data");
+        if (regionName == null || regionName=="") {
+            System.out.println("No region name.");
             return null;
         }
+        else {
+            try {
+                // Create an SQL statement
+                Statement stmt = con.createStatement();
+                // Create string for SQL statement
+                String strSelect =
+                        "select world.city.`Name`, world.city.`ID`, world.city.`CountryCode`,world.city.`District`, world.city.`Population` " +
+                                " from world.city " +
+                                " join world.country on (world.city.`CountryCode`=world.country.`Code`) " +
+                                " where world.country.`Region` = '" + regionName + "' and " +
+                                " world.city.`ID`= world.country.`Capital` " +
+                                " order by world.city.`Population` DESC ";
+
+                // Execute SQL statement
+                ResultSet rset = stmt.executeQuery(strSelect);
+                // Extract language information
+                ArrayList<City> cities = new ArrayList<City>();
+                while (rset.next()) {
+                    City city = new City();
+                    city.setId(rset.getInt("city.ID"));
+                    city.setName(rset.getString("city.Name"));
+                    city.setCountryCode(rset.getString("city.CountryCode"));
+                    city.setDistrictName(rset.getString("city.District"));
+                    city.setPopulation(rset.getInt("city.Population"));
+                    cities.add(city);
+                }
+                return cities;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Failed to get country data");
+                return null;
+            }
+        }
     }
+
     /**
      * top N populated capital cities in a region where N is provided by user
      */
     public ArrayList<City> topNCapitalCitiesInRegion(String regionName, int n){
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "select world.city.`Name`, city.ID, world.city.`CountryCode`,world.city.`District`, world.city.`Population` "+
-                            " from world.city "+
-                            " join world.country on (world.city.`CountryCode`=world.country.`Code`) "+
-                            " where world.country.`Region` = '" + regionName +"' and "+
-                            " world.city.`ID`= world.country.`Capital` "+
-                            " order by world.city.`Population` DESC " +
-                            " limit " + n;
-
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Extract language information
-            ArrayList<City> cities = new ArrayList<City>();
-            while (rset.next()) {
-                City city=new City();
-                city.setId(rset.getInt("city.ID")) ;
-                city.setName(rset.getString("city.Name"));
-                city.setCountryCode(rset.getString("city.CountryCode"));
-                city.setDistrictName(rset.getString("city.District"));
-                city.setPopulation(rset.getInt("city.Population"));
-                cities.add(city);
-            }
-            return cities;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get region data");
+        if (regionName == null || regionName=="") {
+            System.out.println("No region name.");
             return null;
         }
+        else if(n<=0){
+            System.out.println("No valid N, must be above 0.");
+            return null;
+        }
+        else {
+            try {
+                // Create an SQL statement
+                Statement stmt = con.createStatement();
+                // Create string for SQL statement
+                String strSelect =
+                        "select world.city.`Name`, city.ID, world.city.`CountryCode`,world.city.`District`, world.city.`Population` " +
+                                " from world.city " +
+                                " join world.country on (world.city.`CountryCode`=world.country.`Code`) " +
+                                " where world.country.`Region` = '" + regionName + "' and " +
+                                " world.city.`ID`= world.country.`Capital` " +
+                                " order by world.city.`Population` DESC " +
+                                " limit " + n;
+
+                // Execute SQL statement
+                ResultSet rset = stmt.executeQuery(strSelect);
+                // Extract language information
+                ArrayList<City> cities = new ArrayList<City>();
+                while (rset.next()) {
+                    City city = new City();
+                    city.setId(rset.getInt("city.ID"));
+                    city.setName(rset.getString("city.Name"));
+                    city.setCountryCode(rset.getString("city.CountryCode"));
+                    city.setDistrictName(rset.getString("city.District"));
+                    city.setPopulation(rset.getInt("city.Population"));
+                    cities.add(city);
+                }
+                return cities;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Failed to get region data");
+                return null;
+            }
+        }
     }
+
     /**
      * top N populated capital cities in a continent where N is provided by user
      */
