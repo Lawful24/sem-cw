@@ -91,7 +91,7 @@ public class UnitTest {
 
     @Test
     void printAllCountriesTestEmpty() {
-        db.printAllCountries(new ArrayList<Country>());
+        db.printAllCountries(new ArrayList<>());
     }
 
     @Test
@@ -116,5 +116,37 @@ public class UnitTest {
         countries.add(c);
 
         db.printAllCountries(countries);
+    }
+
+    @Test
+    void printAllCitiesTestNull() {
+        db.printAllCities(null);
+    }
+
+    @Test
+    void printAllCitiesTestEmpty() {
+        db.printAllCities(new ArrayList<>());
+    }
+
+    @Test
+    void printAllCitiesTestContainsNull() {
+        ArrayList<City> cities = new ArrayList<>();
+        cities.add(null);
+        db.printAllCities(cities);
+    }
+
+    @Test
+    void printAllCities() {
+        City c = new City();
+        c.setId(84);
+        c.setName("Santa Fé");
+        c.setCountryCode("ARG");
+        c.setDistrictName("Santa Fé");
+        c.setPopulation(353063);
+
+        ArrayList<City> cities = new ArrayList<>();
+        cities.add(c);
+
+        db.printAllCities(cities);
     }
 }

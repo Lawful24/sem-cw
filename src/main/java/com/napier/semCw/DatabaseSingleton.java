@@ -130,7 +130,7 @@ public class DatabaseSingleton {
      * @param countries: a list of countries extracted from the database
      */
     public void printAllCountries(ArrayList<Country> countries) {
-        if (countries != null) {
+        if (countries != null && !countries.isEmpty()) {
             System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
             for (Country c : countries) {
                 if (c != null) {
@@ -233,9 +233,17 @@ public class DatabaseSingleton {
      * @param cities: a list of cities extracted from the database
      */
     public void printAllCities(ArrayList<City> cities) {
-        System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
-        for (City c : cities) {
-            System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", c.getId(), c.getName(), c.getCountryCode(), c.getDistrictName(), c.getPopulation());
+        if (cities != null && !cities.isEmpty()) {
+            System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
+            for (City c : cities) {
+                if (c != null) {
+                    System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", c.getId(), c.getName(), c.getCountryCode(), c.getDistrictName(), c.getPopulation());
+                } else {
+                    System.out.println("Missing element!");
+                }
+            }
+        } else {
+            System.out.println("Failed to print list, there was no argument provided.");
         }
     }
 
