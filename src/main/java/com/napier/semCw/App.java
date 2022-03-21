@@ -10,8 +10,6 @@ public class App {
         db.connect();
 
         // Collect all languages from the database
-        ArrayList<Language> languages = db.getAllLanguagesFromDatabase();
-        db.printAllLanguages(languages);
 
         // Disconnect from database
         db.disconnect();
