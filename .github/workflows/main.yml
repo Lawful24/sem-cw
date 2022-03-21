@@ -6,7 +6,7 @@ on:
       - release
       - develop
       - feature/*
-
+      - test/*
 jobs:
   UnitTests:
     name: Unit Tests
