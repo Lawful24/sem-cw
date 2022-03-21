@@ -202,4 +202,68 @@ public class UnitTest {
         countries.add(new Country());
         db.sortCountriesByPopulation(countries);
     }
+
+    @Test
+    void sortCountriesByPopulationTestAlreadySorted() {
+        Country c1 = new Country();
+        Country c2 = new Country();
+        c1.code = "ASD";
+        c2.code = "BSD";
+        c1.population = 1;
+        c2.population = 2;
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(c1);
+        countries.add(c2);
+        db.sortCountriesByPopulation(countries);
+    }
+
+    @Test
+    void sortCountriesByPopulation() {
+        ArrayList<Country> countries = db.getAllCountriesFromDatabase();
+        db.sortCountriesByPopulation(countries);
+    }
+
+    @Test
+    void sortCitiesByPopulationTestNull() {
+        db.sortCitiesByPopulation(null);
+    }
+
+    @Test
+    void sortCitiesByPopulationTestEmpty() {
+        db.sortCitiesByPopulation(new ArrayList<>());
+    }
+
+    @Test
+    void sortCitiesByPopulationTestContainsNull() {
+        ArrayList<City> cities = new ArrayList<>();
+        cities.add(null);
+        db.sortCitiesByPopulation(cities);
+    }
+
+    @Test
+    void sortCitiesByPopulationTestContainsEmpty() {
+        ArrayList<City> cities = new ArrayList<>();
+        cities.add(new City());
+        db.sortCitiesByPopulation(cities);
+    }
+
+    @Test
+    void sortCitiesByPopulationTestAlreadySorted() {
+        City c1 = new City();
+        City c2 = new City();
+        c1.setId(1);
+        c2.setId(2);
+        c1.setPopulation(1);
+        c2.setPopulation(2);
+        ArrayList<City> cities = new ArrayList<>();
+        cities.add(c1);
+        cities.add(c2);
+        db.sortCitiesByPopulation(cities);
+    }
+
+    @Test
+    void sortCitiesByPopulation() {
+        ArrayList<City> cities = db.getAllCitiesFromDatabase();
+        db.sortCitiesByPopulation(cities);
+    }
 }

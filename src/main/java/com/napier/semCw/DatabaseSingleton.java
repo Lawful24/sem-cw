@@ -155,7 +155,7 @@ public class DatabaseSingleton {
      * @param countries:     a list of countries extracted from the database
      * @param continentName: the name of the continent to print the countries of
      */
-    public void printAllCountries(ArrayList<Country> countries, String continentName) {
+    public void printAllCountriesInContinent(ArrayList<Country> countries, String continentName) {
         System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
         for (Country c : countries) {
             if (continentName.equals(c.continent)) {
@@ -258,16 +258,20 @@ public class DatabaseSingleton {
      * @param cities: a list of cities extracted from the database
      */
     public void sortCitiesByPopulation(ArrayList<City> cities) {
-        boolean sorted = false;
-        while (!sorted) {
-            sorted = true;
-            // Reverse bubble sort
-            for (int i = cities.size() - 1; i > 0; i--) {
-                if (cities.get(i).getId() == cities.get(i).comparePopulationTo(cities.get(i - 1)).getId()) {
-                    cities.set(i - 1, cities.set(i, cities.get(i - 1))); // switch adjacent elements
-                    sorted = false; // flip flag if an element was modified
+        if (cities != null && !cities.isEmpty()) {
+            boolean sorted = false;
+            while (!sorted) {
+                sorted = true;
+                // Reverse bubble sort
+                for (int i = cities.size() - 1; i > 0; i--) {
+                    if (cities.get(i).getId() == cities.get(i).comparePopulationTo(cities.get(i - 1)).getId()) {
+                        cities.set(i - 1, cities.set(i, cities.get(i - 1))); // switch adjacent elements
+                        sorted = false; // flip flag if an element was modified
+                    }
                 }
             }
+        } else {
+            System.out.println("Failed to sort list, there was no argument provided.");
         }
     }
 
