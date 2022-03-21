@@ -2,7 +2,6 @@ package com.napier.semCw;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import java.util.List;
 
@@ -37,6 +36,29 @@ public class UnitTest {
             assertNotNull(c.continent);
             assertNotNull(c.region);
             assertNotNull(c.language);
+        }
+    }
+
+    @Test
+    void getAllCitiesFromDatabaseTestNotNull() {
+        assertNotNull(db.getAllCitiesFromDatabase());
+    }
+
+    @Test
+    void getAllCitiesFromDatabaseTestContainsNull() {
+        List<City> results = db.getAllCitiesFromDatabase();
+        assertFalse(results.contains(null));
+    }
+
+    @Test
+    void getAllCitiesFromDatabaseTestContainsDefaultObject() {
+        List<City> results = db.getAllCitiesFromDatabase();
+        for (City c : results) {
+            assertNotNull(c.getCountryCode());
+            assertNotNull(c.getName());
+            assertNotNull(c.getDistrictName());
+            assertTrue(c.getId() >= 0);
+            assertTrue(c.getPopulation() >= 0);
         }
     }
 }
