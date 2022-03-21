@@ -1,9 +1,11 @@
 package com.napier.semCw;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-public class AppIntegrationTest
-{
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class DBIntegrationTest {
     static DatabaseSingleton db;
 
     @BeforeAll
@@ -11,5 +13,10 @@ public class AppIntegrationTest
     {
         db = DatabaseSingleton.getInstance();
         db.connect("localhost:33060", 30000);
+    }
+
+    @Test
+    void testAssertEquals() {
+        assertEquals(5, 5);
     }
 }
