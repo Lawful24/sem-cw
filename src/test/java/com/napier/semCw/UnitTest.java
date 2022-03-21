@@ -61,4 +61,25 @@ public class UnitTest {
             assertTrue(c.getPopulation() >= 0);
         }
     }
+
+    @Test
+    void getAllLanguagesFromDatabaseTestNotNull() {
+        assertNotNull(db.getAllLanguagesFromDatabase());
+    }
+
+    @Test
+    void getAllLanguagesFromDatabaseTestContainsNull() {
+        List<Language> results = db.getAllLanguagesFromDatabase();
+        assertFalse(results.contains(null));
+    }
+
+    @Test
+    void getAllLanguagesFromDatabaseTestContainsDefaultObject() {
+        List<Language> results = db.getAllLanguagesFromDatabase();
+        for (Language l : results) {
+            assertNotNull(l.getCountryCode());
+            assertNotNull(l.getLanguage());
+            assertTrue(l.getPercentage() >= 0);
+        }
+    }
 }
