@@ -831,4 +831,176 @@ public class DatabaseSingleton {
 
         }
     }
+
+   /**
+    * @author Petya
+    */
+
+    /**
+     * Prints the top n populated countries on a continent where n is provided
+     *
+     * @param continent
+     * @param n : number of countries the user wants to print out
+     */
+
+    public void printTopNPopulatedCountriesPerContinent(String continent, int n) {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM world.country "
+                            + "WHERE continent = '" + continent
+                            + "' ORDER BY `Population` desc limit " + n;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            String chosenContinent = "";
+            int population = 0;
+            String countryName = "";
+            chosenContinent = rset.getString("country.Continent");
+            population = rset.getInt("country.Population");
+            countryName = rset.getString("country.Name");
+
+            System.out.printf("%-13s %-44s %-10s %n", "country.Continent", "country.Name", "Population");
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get the top n populated countries in a continent");
+        }
+    }
+
+    /**
+     * Prints the top n populated cities in the world where n is provided
+     *
+     * @param n : number of cities the user wants to print out
+     */
+
+    public void printTopNPopulatedCitiesInTheWorld(int n) {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM world.country "
+                            + "ORDER BY `Population` desc limit " + n;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            int population = 0;
+            String countryName = "";
+            population = rset.getInt("country.Population");
+            countryName = rset.getString("country.Name");
+
+            System.out.printf("%-35s %-10s %n", "city.Name", "city.Population");
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get the top n populated cities in the world");
+        }
+    }
+
+    /**
+     * Prints the top n populated cities on a continent where n is provided
+     *
+     * @param continent
+     * @param n : number of cities the user wants to print out
+     */
+
+    public void printTopNPopulatedCitiesPerContinent(String continent, int n) {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM world.country JOIN world.city ON (`Code` = `CountryCode`)"
+                            + "WHERE continent = '" + continent
+                            + "' ORDER BY world.city.Population desc limit " + n;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            String chosenContinent = "";
+            int population = 0;
+            String countryName = "";
+            chosenContinent = rset.getString("country.Continent");
+            population = rset.getInt("country.Population");
+
+            System.out.printf("%-13s %-35-n %-10s %n", "city.Continent", "city.Name", "city.Population");
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get the top n populated cities on a continent");
+        }
+    }
+
+    /**
+     * Prints the top n populated cities in a region where n is provided
+     *
+     * @param region
+     * @param n : number of cities the user wants to print out
+     */
+
+    public void printTopNPopulatedCitiesPerRegion(String region, int n) {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM world.country JOIN world.city ON (`Code` = `CountryCode`)"
+                            + "WHERE `Region` = '" + region
+                            + " 'ORDER BY world.city.Population` desc " + n;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            String chosenContinent = "";
+            int population = 0;
+            String regionName = "";
+            chosenContinent = rset.getString("country.Continent");
+            population = rset.getInt("city.Population");
+            regionName = rset.getString("country.Region");
+
+            System.out.printf("%-25s %-44s %-35s %-10s %n", "country.Region", "country.Name", "city.Name", "city.Population");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get the top n populated cities in a region");
+        }
+    }
+
+    /**
+     * Prints the top n populated cities in a country where n is provided
+     *
+     * @param countryName : name of country
+     * @param n : number of countries the user wants to print out
+     */
+
+    public void printTopNPopulatedCitiesPerCountry(String countryName, int n) {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM world.country JOIN world.city ON (`Code` = `CountryCode`) "
+                            + "WHERE world.country.Name = '" + countryName
+                            + "' ORDER BY world.city.Population` desc limit" + n;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            String chosenContinent = "";
+            int population = 0;
+            String chosenCountry = "";
+            chosenContinent = rset.getString("country.Continent");
+            population = rset.getInt("country.Population");
+            chosenCountry = rset.getString("country.Name");
+
+            System.out.printf("%-44s %-10s %-35s %n", "country.Name", "city.Population", "city.Name");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get the top n populated cities in a country");
+        }
+    }
 }
