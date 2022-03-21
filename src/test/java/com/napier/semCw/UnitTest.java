@@ -178,4 +178,28 @@ public class UnitTest {
 
         db.printAllLanguages(languages);
     }
+
+    @Test
+    void sortCountriesByPopulationTestNull() {
+        db.sortCountriesByPopulation(null);
+    }
+
+    @Test
+    void sortCountriesByPopulationTestEmpty() {
+        db.sortCountriesByPopulation(new ArrayList<>());
+    }
+
+    @Test
+    void sortCountriesByPopulationTestContainsNull() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(null);
+        db.sortCountriesByPopulation(countries);
+    }
+
+    @Test
+    void sortCountriesByPopulationTestContainsEmpty() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(new Country());
+        db.sortCountriesByPopulation(countries);
+    }
 }

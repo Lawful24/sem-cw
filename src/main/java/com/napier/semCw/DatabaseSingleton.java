@@ -111,17 +111,22 @@ public class DatabaseSingleton {
      * @param countries: a list of countries extracted from the database
      */
     public void sortCountriesByPopulation(ArrayList<Country> countries) {
-        boolean sorted = false;
-        while (!sorted) {
-            sorted = true;
-            // Reverse bubble sort
-            for (int i = countries.size() - 1; i > 0; i--) {
-                if (countries.get(i).code.equals(countries.get(i).comparePopulationTo(countries.get(i - 1)).code)) {
-                    countries.set(i - 1, countries.set(i, countries.get(i - 1))); // switch adjacent elements
-                    sorted = false; // flip flag if an element was modified
+        if (countries != null && !countries.isEmpty()) {
+            boolean sorted = false;
+            while (!sorted) {
+                sorted = true;
+                // Reverse bubble sort
+                for (int i = countries.size() - 1; i > 0; i--) {
+                    if (countries.get(i).code.equals(countries.get(i).comparePopulationTo(countries.get(i - 1)).code)) {
+                        countries.set(i - 1, countries.set(i, countries.get(i - 1))); // switch adjacent elements
+                        sorted = false; // flip flag if an element was modified
+                    }
                 }
             }
+        } else {
+            System.out.println("Failed to sort list, there was no argument provided.");
         }
+
     }
 
     /**
