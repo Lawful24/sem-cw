@@ -13,7 +13,6 @@ public class UnitTest {
     @BeforeAll
     static void init() {
         db = DatabaseSingleton.getInstance();
-        db.connect("localhost:33060", 30000);
     }
 
     @Test
@@ -36,17 +35,6 @@ public class UnitTest {
     void getCitiesInCountryOrganisedByLargestContainsNull(){
         ArrayList<City> cities=db.getCitiesInCountryOrganisedByLargest("A");
     };
-    @Test
-    void TestgetCitiesInCountryOrganisedByLargest(){
-        ArrayList<City> cities=db.getCitiesInCountryOrganisedByLargest("Romania");
-        for( City c : cities ) {
-            assertNotNull(c.getId());
-            assertNotNull(c.getCountryCode());
-            assertNotNull(c.getName());
-            assertNotNull(c.getDistrictName());
-            assertNotNull(c.getPopulation());
-        }
-    };
 
     /**
      * @Tests for getCitiesInRegionOrganisedByLargest Method
@@ -63,17 +51,7 @@ public class UnitTest {
     void getCitiesInRegionOrganisedByLargestContainsNull() {
         ArrayList<City> cities = db.getCitiesInRegionOrganisedByLargest("X");
     }
-    @Test
-    void TestgetCitiesInRegionOrganisedByLargest(){
-        ArrayList<City> cities=db.getCitiesInRegionOrganisedByLargest("Eastern Europe");
-        for( City c : cities ) {
-            assertTrue(c.getId()>=0);
-            assertNotNull(c.getCountryCode());
-            assertNotNull(c.getName());
-            assertNotNull(c.getDistrictName());
-            assertTrue(c.getPopulation()>=0);
-        }
-    };
+
 
     /**
      * @Tests for getCitiesInContinentOrganisedByLargest Method
@@ -93,17 +71,7 @@ public class UnitTest {
         ArrayList<City> cities=db.getCitiesInContinentOrganisedByLargest("Y");
     };
 
-    @Test
-    void TestgetCitiesInContinentOrganisedByLargest(){
-        ArrayList<City> cities=db.getCitiesInContinentOrganisedByLargest("Europe");
-        for( City c : cities ) {
-            assertTrue(c.getId()>=0);
-            assertNotNull(c.getCountryCode());
-            assertNotNull(c.getName());
-            assertNotNull(c.getDistrictName());
-            assertTrue(c.getPopulation()>=0);
-        }
-    }
+
 
     /**
      * @Tests for getCapitalCitiesInRegionOrganisedByLargest Method
@@ -122,17 +90,7 @@ public class UnitTest {
     void getCapitalCitiesInRegionOrganisedByLargestContainsNull(){
         ArrayList<City> cities=db.getCapitalCitiesInRegionOrganisedByLargest("Y");
     };
-    @Test
-    void TestgetCapitalCitiesInRegionOrganisedByLargest() {
-        ArrayList<City> cities = db.getCapitalCitiesInRegionOrganisedByLargest("Eastern Europe");
-        for (City c : cities) {
-            assertTrue(c.getId() >= 0);
-            assertNotNull(c.getCountryCode());
-            assertNotNull(c.getName());
-            assertNotNull(c.getDistrictName());
-            assertTrue(c.getPopulation() >= 0);
-        }
-    }
+
 
     /**
      * @Tests for topNCapitalCitiesInRegion Method
@@ -149,20 +107,10 @@ public class UnitTest {
 
     @Test
     void topNCapitalCitiesInRegionContainsNull(){
-        ArrayList<City> cities = db.topNCapitalCitiesInRegion("X",3);
+        ArrayList<City> cities = db.topNCapitalCitiesInRegion("X",-3);
     };
 
-    @Test
-    void TesttopNCapitalCitiesInRegion() {
-        ArrayList<City> cities = db.topNCapitalCitiesInRegion("Eastern Europe",3);
-        for (City c : cities) {
-            assertTrue(c.getId() >= 0);
-            assertNotNull(c.getCountryCode());
-            assertNotNull(c.getName());
-            assertNotNull(c.getDistrictName());
-            assertTrue(c.getPopulation() >= 0);
-        }
-    }
+
 
     /**
      * @Tests for topNCapitalCitiesInContinent Method
