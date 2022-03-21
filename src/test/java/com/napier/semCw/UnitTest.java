@@ -149,4 +149,33 @@ public class UnitTest {
 
         db.printAllCities(cities);
     }
+
+    @Test
+    void printAllLanguagesTestNull() {
+        db.printAllLanguages(null);
+    }
+
+    @Test
+    void printAllLanguagesTestEmpty() {
+        db.printAllLanguages(new ArrayList<>());
+    }
+
+    @Test
+    void printAllLanguagesTestContainsNull() {
+        ArrayList<Language> languages = new ArrayList<>();
+        languages.add(null);
+        db.printAllLanguages(languages);
+    }
+
+    @Test
+    void printAllLanguages() {
+        Language l = new Language(
+                "AZE", "Azerbaijani", true, 89.0
+        );
+
+        ArrayList<Language> languages = new ArrayList<>();
+        languages.add(l);
+
+        db.printAllLanguages(languages);
+    }
 }

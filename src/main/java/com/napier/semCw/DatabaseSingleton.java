@@ -495,10 +495,19 @@ public class DatabaseSingleton {
      * @param languages: a list of languages extracted from the database
      */
     public void printAllLanguages(ArrayList<Language> languages) {
-        System.out.printf("%-12s %-30s %-11s %-10s%n", "Country Code", "Language", "Is Official", "Percentage");
-        for (Language l : languages) {
-            System.out.printf("%-12s %-30s %-11s %-10s%n", l.getCountryCode(), l.getLanguage(), l.isOfficial(), l.getPercentage());
+        if (languages != null && !languages.isEmpty()) {
+            System.out.printf("%-12s %-30s %-11s %-10s%n", "Country Code", "Language", "Is Official", "Percentage");
+            for (Language l : languages) {
+                if (l != null) {
+                    System.out.printf("%-12s %-30s %-11s %-10s%n", l.getCountryCode(), l.getLanguage(), l.isOfficial(), l.getPercentage());
+                } else {
+                    System.out.println("Missing element!");
+                }
+            }
+        } else {
+            System.out.println("Failed to print list, there was no argument provided.");
         }
+
     }
 
     /**
