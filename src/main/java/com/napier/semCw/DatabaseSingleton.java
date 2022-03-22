@@ -283,23 +283,38 @@ public class DatabaseSingleton {
      * Prints a report of a country
      *
      * @param countryName: the name of the country
+     * @return Country
      */
-    public void printCountryReport(String countryName){
+    public Country printCountryReport(String countryName){
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
                     "SELECT * "
-                            + "FROM country"
-                            + "WHERE Name = " + countryName;
+                            + "FROM world.country "
+                            + "WHERE country.Name = '" + countryName + "'";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
-            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
-            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", rset.getString("country.Code"), rset.getString("country.Name"), rset.getString("country.Continent"), rset.getString("country.Region"), rset.getInt("country.Population"), rset.getInt("country.Capital"));
+            while(rset.next()) {
+
+                Country c = new Country();
+                c.setCode(rset.getString("country.Code"));
+                c.setName(rset.getString("country.Name"));
+                c.setContinent(rset.getString("country.Continent"));
+                c.setRegion(rset.getString("country.Region"));
+                c.setPopulation(rset.getInt("country.Population"));
+                c.setCapitalID(rset.getInt("country.Capital"));
+                c.setLanguage("");
+                System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+                System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+                return c;
+            }
+            return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get country details");
+            System.out.println("Failed to get country data");
+            return null;
         }
     }
 
@@ -307,23 +322,36 @@ public class DatabaseSingleton {
      * Prints a report of a city
      *
      * @param cityName: the name of the city
+     * @return City
      */
-    public void printCityReport(String cityName){
+    public City printCityReport(String cityName){
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
                     "SELECT * "
-                            + "FROM city"
-                            + "WHERE Name = " + cityName;
+                            + "FROM world.city "
+                            + "WHERE city.Name = '" + cityName + "'";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
-            System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
-            System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", rset.getInt("city.ID"), rset.getString("city.Name"), rset.getString("city.CountryCode"), rset.getString("city.District"), rset.getInt("city.Population"));
+
+            while(rset.next()) {
+                City c = new City();
+                c.setId(rset.getInt("city.ID"));
+                c.setName(rset.getString("city.Name"));
+                c.setCountryCode(rset.getString("city.Name"));
+                c.setDistrictName(rset.getString("city.CountryCode"));
+                c.setPopulation(rset.getInt("city.Population"));
+                System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
+                System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", rset.getInt("city.ID"), rset.getString("city.Name"), rset.getString("city.CountryCode"), rset.getString("city.District"), rset.getInt("city.Population"));
+                return c;
+            }
+            return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get city details");
+            return null;
         }
     }
 
@@ -331,46 +359,51 @@ public class DatabaseSingleton {
      * Prints a report of a capital city
      *
      * @param capitalCityName: the name of the capital city
+     * @return City
      */
-    public void printCapitalCityReport(String capitalCityName){
+    public City printCapitalCityReport(String capitalCityName){
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
                     "SELECT * "
-                            + "FROM city"
-                            + "WHERE Name = " + capitalCityName;
+                            + "FROM world.city JOIN world.country on (country.Capital = city.ID)"
+                            + "WHERE city.Name = '" + capitalCityName + "'" + "AND country.Capital = city.ID";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
-            String strSelect2 =
-                    "SELECT * "
-                            + "FROM country"
-                            + "WHERE Capital = " + rset.getInt("city.ID");
-            // Execute SQL statement
-            ResultSet rset2 = stmt.executeQuery(strSelect);
-            if(!rset2.getString("country.Name").isEmpty()) {
-                System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
-                System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", rset.getInt("city.ID"), rset.getString("city.Name"), rset.getString("city.CountryCode"), rset.getString("city.District"), rset.getInt("city.Population"));
-            }else{
-                System.out.println("Not capital");
-            }
+
+
+                while(rset.next()) {
+                    City c = new City();
+                    c.setId(rset.getInt("city.ID"));
+                    c.setName(rset.getString("city.Name"));
+                    c.setCountryCode(rset.getString("city.Name"));
+                    c.setDistrictName(rset.getString("city.CountryCode"));
+                    c.setPopulation(rset.getInt("city.Population"));
+                    System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
+                    System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", rset.getInt("city.ID"), rset.getString("city.Name"), rset.getString("city.CountryCode"), rset.getString("city.District"), rset.getInt("city.Population"));
+                    return c;
+                }
+                return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get city details");
+            return null;
         }
     }
 
     /**
      * Prints the population of the world
+     * @return population of the world
      */
-    public void printPopulationOfWorld(){
+    public int printPopulationOfWorld(){
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT * "
+                    "SELECT country.Population "
                             + "FROM country";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
@@ -380,26 +413,29 @@ public class DatabaseSingleton {
                 population += rset.getInt("country.Population");
             }
             System.out.println("The population of the world is " + population);
+            return population;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get the population of the world");
+            return -1;
         }
     }
 
     /**
      * Prints the population of a region
      *
-     * @param regionName: Name of the region
+     * @param continentName: Name of the region
+     * @return population of a region
      */
-    public void printPopulationOfRegion(String regionName){
+    public int printPopulationOfContinent(String continentName){
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT * "
-                            + "FROM country"
-                            + "WHERE Region = " + regionName;
+                    "SELECT country.Population "
+                            + "FROM country "
+                            + "WHERE country.Continent = '" + continentName + "'";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Extract country information
@@ -407,10 +443,51 @@ public class DatabaseSingleton {
             while (rset.next()) {
                 population += rset.getInt("country.Population");
             }
-            System.out.println("The population of the region is " + population);
+            if(population != 0){
+                System.out.println("The population of the continent is " + population);
+                return population;
+            }else {
+                return -1;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get the population of the continent");
+            return -1;
+        }
+    }
+
+    /**
+     * Prints the population of a region
+     *
+     * @param regionName: Name of the region
+     * @return population of a region
+     */
+    public int printPopulationOfRegion(String regionName){
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT country.Population "
+                            + "FROM country "
+                            + "WHERE country.Region = '" + regionName + "'";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract country information
+            int population = 0;
+            while (rset.next()) {
+                population += rset.getInt("country.Population");
+            }
+            if(population != 0){
+                System.out.println("The population of the region is " + population);
+                return population;
+            }else {
+                return -1;
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get the population of the region");
+            return -1;
         }
     }
 
@@ -418,25 +495,34 @@ public class DatabaseSingleton {
      * Prints the population of a country
      *
      * @param countryName: Name of the country
+     * @return population of a country
      */
-    public void printPopulationOfCountry(String countryName){
+    public int printPopulationOfCountry(String countryName){
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT * "
-                            + "FROM country"
-                            + "WHERE Name = " + countryName;
+                    "SELECT country.population "
+                            + "FROM country "
+                            + "WHERE country.Name = '" + countryName + "'";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Extract country information
             int population = 0;
-            population += rset.getInt("country.Population");
-            System.out.println("The population of the region is " + population);
+            while(rset.next()) {
+                population += rset.getInt("country.Population");
+            }
+            if(population != 0){
+                System.out.println("The population of the country is " + population);
+                return population;
+            }else {
+                return -1;
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get the population of the country");
+            return -1;
         }
     }
 
@@ -489,25 +575,34 @@ public class DatabaseSingleton {
      * Prints the population of a city
      *
      * @param cityName: Name of the city
+     * @return population of a city
      */
-    public void printPopulationOfCity(String cityName){
+    public int printPopulationOfCity(String cityName){
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT * "
-                            + "FROM city"
-                            + "WHERE Name = " + cityName;
+                    "SELECT city.Population "
+                            + "FROM city "
+                            + "WHERE city.Name = '" + cityName + "'";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Extract country information
             int population = 0;
-            population += rset.getInt("city.Population");
-            System.out.println("The population of the city is " + population);
+            while(rset.next()) {
+                population += rset.getInt("city.Population");
+            }
+            if(population != 0){
+                System.out.println("The population of the city is " + population);
+                return population;
+            }else {
+                return -1;
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get the population of the city");
+            return -1;
         }
     }
 
@@ -515,16 +610,17 @@ public class DatabaseSingleton {
      * Prints the population of a district
      *
      * @param districtName: Name of the district
+     * @return population of a district
      */
-    public void printPopulationOfDistrict(String districtName){
+    public int printPopulationOfDistrict(String districtName){
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT * "
-                            + "FROM city"
-                            + "WHERE District = " + districtName;
+                    "SELECT city.Population "
+                            + "FROM city "
+                            + "WHERE District = '" + districtName + "'";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Extract country information
@@ -532,10 +628,16 @@ public class DatabaseSingleton {
             while (rset.next()) {
                 population += rset.getInt("city.Population");
             }
-            System.out.println("The population of the district is " + population);
+            if(population != 0){
+                System.out.println("The population of the district is " + population);
+                return population;
+            }else {
+                return -1;
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get the population of the district");
+            return -1;
         }
     }
     /**
