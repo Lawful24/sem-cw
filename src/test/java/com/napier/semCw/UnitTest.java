@@ -51,6 +51,51 @@ public class UnitTest {
     }
 
     @Test
+    void printAllCountriesInContinentTestNullList() {
+        db.printAllCountriesInContinent(null, "Europe");
+    }
+
+    @Test
+    void printAllCountriesInContinentTestNullString() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(new Country("ATA", "Antarctica", "Antarctica", "Antarctica", 0, 0, ""));
+        db.printAllCountriesInContinent(countries, null);
+    }
+
+    @Test
+    void printAllCountriesInContinentTestEmptyList() {
+        db.printAllCountriesInContinent(new ArrayList<>(), "Europe");
+    }
+
+    @Test
+    void printAllCountriesInContinentTestEmptyString() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(new Country("ATA", "Antarctica", "Antarctica", "Antarctica", 0, 0, ""));
+        db.printAllCountriesInContinent(countries, "");
+    }
+
+    @Test
+    void printAllCountriesInContinentTestContainsNull() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(null);
+        db.printAllCountriesInContinent(countries, "Europe");
+    }
+
+    @Test
+    void printAllCountriesInContinentTestCountryNotFound() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(new Country("ATA", "Antarctica", "Antarctica", "Antarctica", 0, 0, ""));
+        db.printAllCountriesInContinent(countries, "Europe");
+    }
+
+    @Test
+    void printAllCountriesInContinent() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(new Country("ATA", "Antarctica", "Antarctica", "Antarctica", 0, 0, ""));
+        db.printAllCountriesInContinent(countries, "Antarctica");
+    }
+
+    @Test
     void printAllCitiesTestNull() {
         db.printAllCities(null);
     }
