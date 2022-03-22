@@ -25,15 +25,15 @@ public class UnitTest {
      */
     @Test
     void getCitiesInCountryOrganisedByLargestTestNull(){
-        ArrayList<City> cities=db.getCitiesInCountryOrganisedByLargest(null);
+        assertEquals(db.getCitiesInCountryOrganisedByLargest(null),null);
     };
     @Test
     void getCitiesInCountryOrganisedByLargestEmptyString(){
-        ArrayList<City> cities=db.getCitiesInCountryOrganisedByLargest("");
+        assertEquals(db.getCitiesInCountryOrganisedByLargest(""),null);
     };
     @Test
     void getCitiesInCountryOrganisedByLargestContainsNull(){
-        ArrayList<City> cities=db.getCitiesInCountryOrganisedByLargest("A");
+        assertNull(db.getCitiesInCountryOrganisedByLargest("W"));
     };
 
     /**
@@ -41,15 +41,15 @@ public class UnitTest {
      */
     @Test
     void getCitiesInRegionOrganisedByLargestTestNull(){
-        ArrayList<City> cities=db.getCitiesInRegionOrganisedByLargest(null);
+        assertEquals(db.getCitiesInRegionOrganisedByLargest(null),null);
     };
     @Test
     void getCitiesInRegionOrganisedByLargestEmptyString() {
-        ArrayList<City> cities = db.getCitiesInRegionOrganisedByLargest("");
+        assertEquals(db.getCitiesInRegionOrganisedByLargest(""),null);
     }
     @Test
     void getCitiesInRegionOrganisedByLargestContainsNull() {
-        ArrayList<City> cities = db.getCitiesInRegionOrganisedByLargest("X");
+        assertNull(db.getCitiesInRegionOrganisedByLargest("W"));
     }
 
 
@@ -58,17 +58,17 @@ public class UnitTest {
      */
     @Test
     void getCitiesInContinentOrganisedByLargestNull(){
-        ArrayList<City> cities=db.getCitiesInContinentOrganisedByLargest(null);
+        assertEquals(db.getCitiesInContinentOrganisedByLargest(null),null);
     };
 
     @Test
     void getCitiesInContinentOrganisedByLargestEmptyString(){
-        ArrayList<City> cities=db.getCitiesInContinentOrganisedByLargest("");
+        assertEquals(db.getCitiesInContinentOrganisedByLargest(""),null);
     };
 
     @Test
     void getCitiesInContinentOrganisedByLargestContainsNull(){
-        ArrayList<City> cities=db.getCitiesInContinentOrganisedByLargest("Y");
+        assertNull(db.getCitiesInContinentOrganisedByLargest("W"));
     };
 
 
@@ -78,17 +78,17 @@ public class UnitTest {
      */
     @Test
     void getCapitalCitiesInRegionOrganisedByLargestNull(){
-        ArrayList<City> cities=db.getCapitalCitiesInRegionOrganisedByLargest(null);
+        assertEquals(db.getCapitalCitiesInRegionOrganisedByLargest(null),null);
     };
 
     @Test
     void getCapitalCitiesInRegionOrganisedByLargestEmptyString(){
-        ArrayList<City> cities=db.getCapitalCitiesInRegionOrganisedByLargest("");
+        assertEquals(db.getCapitalCitiesInRegionOrganisedByLargest(""),null);
     };
 
     @Test
     void getCapitalCitiesInRegionOrganisedByLargestContainsNull(){
-        ArrayList<City> cities=db.getCapitalCitiesInRegionOrganisedByLargest("Y");
+        assertNull(db.getCapitalCitiesInRegionOrganisedByLargest("W"));
     };
 
 
@@ -97,17 +97,17 @@ public class UnitTest {
      */
     @Test
     void topNCapitalCitiesInRegionNull(){
-        ArrayList<City> cities = db.topNCapitalCitiesInRegion(null,0);
+        assertEquals(db.topNCapitalCitiesInRegion(null,4),null);
     };
 
     @Test
     void topNCapitalCitiesInRegionEmptyString(){
-        ArrayList<City> cities = db.topNCapitalCitiesInRegion("",-4);
+        assertEquals(db.topNCapitalCitiesInRegion("",-3),null);
     };
 
     @Test
     void topNCapitalCitiesInRegionContainsNull(){
-        ArrayList<City> cities = db.topNCapitalCitiesInRegion("X",-3);
+        assertNull(db.topNCapitalCitiesInRegion("W",3));
     };
 
 
