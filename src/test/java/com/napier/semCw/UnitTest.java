@@ -15,11 +15,6 @@ public class UnitTest {
         db = DatabaseSingleton.getInstance();
     }
 
-    @Test
-    void unitTest() {
-        assertEquals(5, 5);
-    }
-
     /**
      * @Tests for getCitiesInCountryOrganisedByLargest Method
      */

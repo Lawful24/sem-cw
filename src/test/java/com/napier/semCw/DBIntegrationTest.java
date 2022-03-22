@@ -18,10 +18,9 @@ public class DBIntegrationTest {
         db.connect("localhost:33060", 30000);
     }
 
-    @Test
-    void testAssertEquals() {
-        assertEquals(5, 5);
-    }
+    /**
+     * @Test  getCitiesInCountryOrganisedByLargest Method
+     */
     @Test
     void TestgetCitiesInCountryOrganisedByLargest(){
         ArrayList<City> cities=db.getCitiesInCountryOrganisedByLargest("Romania");
@@ -34,6 +33,9 @@ public class DBIntegrationTest {
         }
     };
 
+    /**
+     * @Test  getCitiesInRegionOrganisedByLargest Method
+     */
     @Test
     void TestgetCitiesInRegionOrganisedByLargest(){
         ArrayList<City> cities=db.getCitiesInRegionOrganisedByLargest("Eastern Europe");
@@ -45,6 +47,9 @@ public class DBIntegrationTest {
             assertTrue(c.getPopulation()>=0);
         }
     };
+    /**
+     * @Test  getCitiesInContinentOrganisedByLargest Method
+     */
     @Test
     void TestgetCitiesInContinentOrganisedByLargest(){
         ArrayList<City> cities=db.getCitiesInContinentOrganisedByLargest("Europe");
@@ -56,6 +61,9 @@ public class DBIntegrationTest {
             assertTrue(c.getPopulation()>=0);
         }
     }
+    /**
+     * @Test  getCapitalCitiesInRegionOrganisedByLargest Method
+     */
     @Test
     void TestgetCapitalCitiesInRegionOrganisedByLargest() {
         ArrayList<City> cities = db.getCapitalCitiesInRegionOrganisedByLargest("Eastern Europe");
@@ -67,6 +75,9 @@ public class DBIntegrationTest {
             assertTrue(c.getPopulation() >= 0);
         }
     }
+    /**
+     * @Test  topNCapitalCitiesInRegion Method
+     */
     @Test
     void TesttopNCapitalCitiesInRegion() {
         ArrayList<City> cities = db.topNCapitalCitiesInRegion("Eastern Europe",3);
@@ -78,7 +89,9 @@ public class DBIntegrationTest {
             assertTrue(c.getPopulation() >= 0);
         }
     }
-
+    /**
+     * @Test topNCapitalCitiesInContinent Method
+     */
     @Test
     void TesttopNCapitalCitiesInContinent(){
         ArrayList<City> cities = db.topNCapitalCitiesInContinent("Europe",3);
@@ -90,7 +103,9 @@ public class DBIntegrationTest {
             assertTrue(c.getPopulation() >= 0);
         }
     };
-
+    /**
+     * @Test  topNCapitalCitiesInWorld Method
+     */
     @Test
     void TesttopNCapitalCitiesInWorld(){
         ArrayList<City> cities = db.topNCapitalCitiesInWorld(3);
@@ -102,7 +117,9 @@ public class DBIntegrationTest {
             assertTrue(c.getPopulation() >= 0);
         }
     };
-
+    /**
+     * @Test  peopleICNCinEachCountry Method
+     */
     @Test
     void TestpeopleICNCinEachCountry(){
         db.peopleICNCinEachCountry();

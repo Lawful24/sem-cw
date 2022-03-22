@@ -546,7 +546,9 @@ public class DatabaseSingleton {
     }
 
     /**
-     * all the cities in a country organised by largest to smallest
+     * All the cities in a country organised by largest to smallest
+     * @param countryName
+     * @return list of cities in a country organised by largest
      */
     public ArrayList<City> getCitiesInCountryOrganisedByLargest(String countryName) {
         if (countryName == null || countryName=="") {
@@ -589,6 +591,8 @@ public class DatabaseSingleton {
 
     /**
      * all the cities in a region organised by largest to smallest
+     * @param regionName
+     * @return  List of cities in a region organised by largest
      */
     public ArrayList<City> getCitiesInRegionOrganisedByLargest(String regionName){
         if (regionName == null || regionName=="") {
@@ -631,6 +635,8 @@ public class DatabaseSingleton {
 
     /**
      * all the cities in a continent organised by largest to smallest
+     * @param continentName
+     * @return list of cities in a continent organised by largest
      */
     public ArrayList<City> getCitiesInContinentOrganisedByLargest(String continentName){
         if (continentName == null || continentName=="") {
@@ -673,6 +679,8 @@ public class DatabaseSingleton {
 
     /**
      * all the capital cities in a region organised by largest to smallest
+     * @param regionName
+     * @return  list of capital cities in a region organised by largest
      */
     public ArrayList<City> getCapitalCitiesInRegionOrganisedByLargest(String regionName){
         if (regionName == null || regionName=="") {
@@ -716,6 +724,9 @@ public class DatabaseSingleton {
 
     /**
      * top N populated capital cities in a region where N is provided by user
+     * @param regionName
+     * @param n  integer given by user
+     * @return list of top n populated capital cities in a region
      */
     public ArrayList<City> topNCapitalCitiesInRegion(String regionName, int n){
         if (regionName == null || regionName=="") {
@@ -764,6 +775,9 @@ public class DatabaseSingleton {
 
     /**
      * top N populated capital cities in a continent where N is provided by user
+     * @param continentName
+     * @param n integer given by user
+     * @return list of top n populated capital cities in a continent
      */
     public ArrayList<City> topNCapitalCitiesInContinent(String continentName, int n) {
         if (continentName == null || continentName == "") {
@@ -811,6 +825,8 @@ public class DatabaseSingleton {
 
     /**
      * top N populated capital cities in the world where N is provided by user
+     * @param n integer given by user
+     * @return list of top n populated capital cities in the world
      */
     public ArrayList<City> topNCapitalCitiesInWorld( int n){
      if (n <= 0) {
