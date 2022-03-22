@@ -34,23 +34,6 @@ public class UnitTest {
     }
 
     @Test
-    void printAllCountries() {
-        Country c = new Country();
-        c.code = "ATA";
-        c.name = "Antarctica";
-        c.continent = "Antarctica";
-        c.region = "Antarctica";
-        c.population = 0;
-        c.capitalID = 0;
-        c.language = "";
-
-        ArrayList<Country> countries = new ArrayList<>();
-        countries.add(c);
-
-        db.printAllCountries(countries);
-    }
-
-    @Test
     void printAllCountriesInContinentTestNullList() {
         db.printAllCountriesInContinent(null, "Europe");
     }
@@ -89,10 +72,41 @@ public class UnitTest {
     }
 
     @Test
-    void printAllCountriesInContinent() {
+    void printAllCountriesInRegionTestNullList() {
+        db.printAllCountriesInRegion(null, "Europe");
+    }
+
+    @Test
+    void printAllCountriesInRegionTestNullString() {
         ArrayList<Country> countries = new ArrayList<>();
         countries.add(new Country("ATA", "Antarctica", "Antarctica", "Antarctica", 0, 0, ""));
-        db.printAllCountriesInContinent(countries, "Antarctica");
+        db.printAllCountriesInRegion(countries, null);
+    }
+
+    @Test
+    void printAllCountriesInRegionTestEmptyList() {
+        db.printAllCountriesInRegion(new ArrayList<>(), "Eastern Europe");
+    }
+
+    @Test
+    void printAllCountriesInRegionTestEmptyString() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(new Country("ATA", "Antarctica", "Antarctica", "Antarctica", 0, 0, ""));
+        db.printAllCountriesInRegion(countries, "");
+    }
+
+    @Test
+    void printAllCountriesInRegionTestContainsNull() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(null);
+        db.printAllCountriesInRegion(countries, "Eastern Europe");
+    }
+
+    @Test
+    void printAllCountriesInRegionTestCountryNotFound() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(new Country("ATA", "Antarctica", "Antarctica", "Antarctica", 0, 0, ""));
+        db.printAllCountriesInRegion(countries, "Eastern Europe");
     }
 
     @Test
@@ -113,21 +127,6 @@ public class UnitTest {
     }
 
     @Test
-    void printAllCities() {
-        City c = new City();
-        c.setId(84);
-        c.setName("Santa Fé");
-        c.setCountryCode("ARG");
-        c.setDistrictName("Santa Fé");
-        c.setPopulation(353063);
-
-        ArrayList<City> cities = new ArrayList<>();
-        cities.add(c);
-
-        db.printAllCities(cities);
-    }
-
-    @Test
     void printAllLanguagesTestNull() {
         db.printAllLanguages(null);
     }
@@ -141,18 +140,6 @@ public class UnitTest {
     void printAllLanguagesTestContainsNull() {
         ArrayList<Language> languages = new ArrayList<>();
         languages.add(null);
-        db.printAllLanguages(languages);
-    }
-
-    @Test
-    void printAllLanguages() {
-        Language l = new Language(
-                "AZE", "Azerbaijani", true, 89.0
-        );
-
-        ArrayList<Language> languages = new ArrayList<>();
-        languages.add(l);
-
         db.printAllLanguages(languages);
     }
 
@@ -195,12 +182,6 @@ public class UnitTest {
     }
 
     @Test
-    void sortCountriesByPopulation() {
-        ArrayList<Country> countries = db.getAllCountriesFromDatabase();
-        db.sortCountriesByPopulation(countries);
-    }
-
-    @Test
     void sortCitiesByPopulationTestNull() {
         db.sortCitiesByPopulation(null);
     }
@@ -235,12 +216,6 @@ public class UnitTest {
         ArrayList<City> cities = new ArrayList<>();
         cities.add(c1);
         cities.add(c2);
-        db.sortCitiesByPopulation(cities);
-    }
-
-    @Test
-    void sortCitiesByPopulation() {
-        ArrayList<City> cities = db.getAllCitiesFromDatabase();
         db.sortCitiesByPopulation(cities);
     }
 

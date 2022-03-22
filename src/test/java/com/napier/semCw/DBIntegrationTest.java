@@ -3,6 +3,7 @@ package com.napier.semCw;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -82,6 +83,43 @@ public class DBIntegrationTest {
             assertNotNull(l.getLanguage());
             assertTrue(l.getPercentage() >= 0);
         }
+    }
+
+    @Test
+    void printAllCountries() {
+        db.printAllCountries(db.getAllCountriesFromDatabase());
+    }
+
+    @Test
+    void printAllCountriesInContinent() {
+        db.printAllCountriesInContinent(db.getAllCountriesFromDatabase(), "Antarctica");
+    }
+
+    @Test
+    void printAllCountriesInRegion() {
+        db.printAllCountriesInRegion(db.getAllCountriesFromDatabase(), "Antarctica");
+    }
+
+    @Test
+    void printAllCities() {
+        db.printAllCities(db.getAllCitiesFromDatabase());
+    }
+
+    @Test
+    void printAllLanguages() {
+        db.printAllLanguages(db.getAllLanguagesFromDatabase());
+    }
+
+    @Test
+    void sortCountriesByPopulation() {
+        ArrayList<Country> countries = db.getAllCountriesFromDatabase();
+        db.sortCountriesByPopulation(countries);
+    }
+
+    @Test
+    void sortCitiesByPopulation() {
+        ArrayList<City> cities = db.getAllCitiesFromDatabase();
+        db.sortCitiesByPopulation(cities);
     }
 
     @Test

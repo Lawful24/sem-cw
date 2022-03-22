@@ -166,7 +166,7 @@ public class DatabaseSingleton {
                 }
             }
         } else {
-            System.out.println("Failed to print list, there was no argument provided.");
+            System.out.println("Failed to print list, not enough or no arguments provided.");
         }
     }
 
@@ -177,11 +177,19 @@ public class DatabaseSingleton {
      * @param regionName: the name of the region to print the countries of
      */
     public void printAllCountriesInRegion(ArrayList<Country> countries, String regionName) {
-        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
-        for (Country c : countries) {
-            if (regionName.equals(c.region)) {
-                System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+        if (countries != null && !countries.isEmpty() && regionName != null && !regionName.isEmpty()) {
+            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+            for (Country c : countries) {
+                if (c != null) {
+                    if (regionName.equals(c.region)) {
+                        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+                    }
+                } else {
+                    System.out.println("Missing element!");
+                }
             }
+        } else {
+            System.out.println("Failed to print list, not enough or no arguments provided.");
         }
     }
 
