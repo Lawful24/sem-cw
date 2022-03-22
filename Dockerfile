@@ -1,4 +1,4 @@
 FROM openjdk:latest as Application
-COPY ./target/cw-0.1.0.2-jar-with-dependencies.jar /tmp
+COPY ./target/semCW.jar /tmp
 WORKDIR /tmp
-ENTRYPOINT ["java", "-jar", "cw-0.1.0.2-jar-with-dependencies.jar"]
+ENTRYPOINT ["java", "-jar", "semCW.jar", "db:3306", "30000"]

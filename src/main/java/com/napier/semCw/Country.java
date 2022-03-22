@@ -10,7 +10,7 @@ public class Country {
     /**
      * Country code
      */
-    public int code;
+    public String code;
 
     /**
      * Country name
@@ -35,18 +35,40 @@ public class Country {
     /**
      * Country's capital
      */
-    public String capital;
+    public int capitalID;
 
     /**
      * Country language
      */
     public String language;
 
+    // Constructors
+
+    public Country() {
+        this.code = "";
+        this.name = "";
+        this.continent = "";
+        this.region = "";
+        this.population = 0;
+        this.capitalID = 0;
+        this.language = "";
+    }
+
+    public Country(String code, String name, String continent, String region, int population, int capitalID, String language) {
+        this.code = code;
+        this.name = name;
+        this.continent = continent;
+        this.region = region;
+        this.population = population;
+        this.capitalID = capitalID;
+        this.language = language;
+    }
+
     /**
      * Getter country code
      * @return code
      */
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
@@ -54,7 +76,7 @@ public class Country {
      * Setter country code
      * @param code
      */
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -126,16 +148,16 @@ public class Country {
      * Getter country capital
      * @return capital
      */
-    public String getCapital() {
-        return capital;
+    public int getCapitalID() {
+        return capitalID;
     }
 
     /**
      * Setter country capital
-     * @param capital
+     * @param capitalID
      */
-    public void setCapital(String capital) {
-        this.capital = capital;
+    public void setCapitalID(int capitalID) {
+        this.capitalID = capitalID;
     }
 
     /**
@@ -155,6 +177,19 @@ public class Country {
     }
 
     /**
+     * Compares the population attribute of two Country objects
+     * @param country: another object to compare the current one to
+     * @return The code of the country with the larger population.
+     */
+    public Country comparePopulationTo(Country country) {
+        if (this.population > country.population) {
+            return this;
+        } else {
+            return country;
+        }
+    }
+
+    /**
      * toString method
      * @return string containing all country information
      */
@@ -166,7 +201,7 @@ public class Country {
                 ", continent='" + continent + '\'' +
                 ", region='" + region + '\'' +
                 ", population=" + population +
-                ", capital='" + capital + '\'' +
+                ", capital='" + capitalID + '\'' +
                 ", language='" + language + '\'' +
                 '}';
     }
