@@ -832,6 +832,7 @@ public class DatabaseSingleton {
         }
     }
 
+
    /**
     * @author Petya
     */
@@ -841,9 +842,23 @@ public class DatabaseSingleton {
      *
      * @param continent
      * @param n : number of countries the user wants to print out
+     * @return countries
      */
 
     public ArrayList<Country> printTopNPopulatedCountriesPerContinent(String continent, int n) {
+
+        if(continent == null ||  continent =="")
+        {
+            System.out.println("Continent input is nonexistent.");
+            return null;
+        }
+
+        if(n<=0)
+        {
+           System.out.println("N must be bigger then 0.");
+           return null;
+        }
+
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -861,12 +876,25 @@ public class DatabaseSingleton {
                 Country c = new Country();
                 c.setContinent(rset.getString("country.Continent"));
                 c.setName(rset.getString("country.Name"));
-                c.setPopulation(rset.getInt("city.Population"));
+                c.setPopulation(rset.getInt("country.Population"));
                 countries.add(c);
 
             }
-            System.out.printf("%-13s %-44s %-10s %n", "country.Continent", "country.Name", "country.Population");
+            int arraySize = countries.size();
+
+            if(n< arraySize)
+            {
+                System.out.println("There aren't that many countries, choose a smaller N");
+                return null;
+            }
+
+            System.out.printf("%-13s %-44s %-10s %n", "Continent", "Name", "Population");
+            for (Country c : countries)
+            {
+             System.out.printf("%-13s %-44s %-10s %n", c.getContinent(), c.getName(), c.getPopulation());
+            }
             return countries;
+
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -875,6 +903,7 @@ public class DatabaseSingleton {
         }
     }
 
+
     /**
      * Prints the top n populated cities in the world where n is provided
      *
@@ -882,6 +911,13 @@ public class DatabaseSingleton {
      */
 
     public ArrayList<City> printTopNPopulatedCitiesInTheWorld(int n) {
+
+        if(n<=0)
+        {
+            System.out.println("N must be bigger then 0.");
+            return null;
+        }
+
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -899,6 +935,14 @@ public class DatabaseSingleton {
                 c.setPopulation(rset.getInt("city.Population"));
                 cities.add(c);
             }
+            int arraySize = cities.size();
+
+            if(n< arraySize)
+            {
+                System.out.println("There aren't that many countries, choose a smaller N");
+                return null;
+            }
+
             System.out.printf("%-35s %-10s %n", "city.Name", "city.Population");
             return cities;
 
@@ -909,6 +953,7 @@ public class DatabaseSingleton {
         }
     }
 
+
     /**
      * Prints the top n populated cities on a continent where n is provided
      *
@@ -917,6 +962,19 @@ public class DatabaseSingleton {
      */
 
     public ArrayList<City> printTopNPopulatedCitiesPerContinent(String continent, int n) {
+
+        if(continent == null ||  continent =="")
+        {
+            System.out.println("Continent input is nonexistent.");
+            return null;
+        }
+
+        if(n<=0)
+        {
+            System.out.println("N must be bigger then 0.");
+            return null;
+        }
+
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -935,6 +993,13 @@ public class DatabaseSingleton {
                 c.setPopulation(rset.getInt("city.Population"));
                 cities.add(c);
             }
+            int arraySize = cities.size();
+            if(n< arraySize)
+            {
+                System.out.println("There aren't that many countries, choose a smaller N");
+                return null;
+            }
+
             System.out.printf("%-35-n %-10s %n", "Name", "Population");
             return cities;
 
