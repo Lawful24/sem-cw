@@ -765,75 +765,91 @@ public class DatabaseSingleton {
     /**
      * top N populated capital cities in a continent where N is provided by user
      */
-    public ArrayList<City> topNCapitalCitiesInContinent(String continentName, int n){
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "select world.city.`Name`, city.ID, world.city.`CountryCode`,world.city.`District`, world.city.`Population` "+
-                            " from world.city "+
-                            " join world.country on (world.city.`CountryCode`=world.country.`Code`) "+
-                            " where world.country.`Continent` = '" + continentName +"' and "+
-                            " world.city.`ID`= world.country.`Capital` "+
-                            " order by world.city.`Population` DESC " +
-                            " limit " + n;
-
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Extract language information
-            ArrayList<City> cities = new ArrayList<City>();
-            while (rset.next()) {
-                City city=new City();
-                city.setId(rset.getInt("city.ID")) ;
-                city.setName(rset.getString("city.Name"));
-                city.setCountryCode(rset.getString("city.CountryCode"));
-                city.setDistrictName(rset.getString("city.District"));
-                city.setPopulation(rset.getInt("city.Population"));
-                cities.add(city);
-            }
-            return cities;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get region data");
+    public ArrayList<City> topNCapitalCitiesInContinent(String continentName, int n) {
+        if (continentName == null || continentName == "") {
+            System.out.println("No region name.");
+            return null;
+        } else if (n <= 0) {
+            System.out.println("No valid N, must be above 0.");
             return null;
         }
+        else {
+            try {
+                // Create an SQL statement
+                Statement stmt = con.createStatement();
+                // Create string for SQL statement
+                String strSelect =
+                        "select world.city.`Name`, city.ID, world.city.`CountryCode`,world.city.`District`, world.city.`Population` " +
+                                " from world.city " +
+                                " join world.country on (world.city.`CountryCode`=world.country.`Code`) " +
+                                " where world.country.`Continent` = '" + continentName + "' and " +
+                                " world.city.`ID`= world.country.`Capital` " +
+                                " order by world.city.`Population` DESC " +
+                                " limit " + n;
+
+                // Execute SQL statement
+                ResultSet rset = stmt.executeQuery(strSelect);
+                // Extract language information
+                ArrayList<City> cities = new ArrayList<City>();
+                while (rset.next()) {
+                    City city = new City();
+                    city.setId(rset.getInt("city.ID"));
+                    city.setName(rset.getString("city.Name"));
+                    city.setCountryCode(rset.getString("city.CountryCode"));
+                    city.setDistrictName(rset.getString("city.District"));
+                    city.setPopulation(rset.getInt("city.Population"));
+                    cities.add(city);
+                }
+                return cities;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Failed to get region data");
+                return null;
+            }
+        }
     }
+
     /**
      * top N populated capital cities in the world where N is provided by user
      */
     public ArrayList<City> topNCapitalCitiesInWorld( int n){
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "select world.city.`Name`, city.ID, world.city.`CountryCode`,world.city.`District`, world.city.`Population` "+
-                            " from world.city "+
-                            " join world.country on (world.city.`CountryCode`=world.country.`Code`) "+
-                            " where world.city.`ID`= world.country.`Capital` "+
-                            " order by world.city.`Population` DESC " +
-                            " limit " + n;
+     if (n <= 0) {
+        System.out.println("No valid N, must be above 0.");
+        return null;
+    }
+     else {
+         try {
+             // Create an SQL statement
+             Statement stmt = con.createStatement();
+             // Create string for SQL statement
+             String strSelect =
+                     "select world.city.`Name`, city.ID, world.city.`CountryCode`,world.city.`District`, world.city.`Population` " +
+                             " from world.city " +
+                             " join world.country on (world.city.`CountryCode`=world.country.`Code`) " +
+                             " where world.city.`ID`= world.country.`Capital` " +
+                             " order by world.city.`Population` DESC " +
+                             " limit " + n;
 
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Extract language information
-            ArrayList<City> cities = new ArrayList<City>();
-            while (rset.next()) {
-                City city=new City();
-                city.setId(rset.getInt("city.ID")) ;
-                city.setName(rset.getString("city.Name"));
-                city.setCountryCode(rset.getString("city.CountryCode"));
-                city.setDistrictName(rset.getString("city.District"));
-                city.setPopulation(rset.getInt("city.Population"));
-                cities.add(city);
-            }
-            return cities;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get region data");
-            return null;
-        }
+             // Execute SQL statement
+             ResultSet rset = stmt.executeQuery(strSelect);
+             // Extract language information
+             ArrayList<City> cities = new ArrayList<City>();
+             while (rset.next()) {
+                 City city = new City();
+                 city.setId(rset.getInt("city.ID"));
+                 city.setName(rset.getString("city.Name"));
+                 city.setCountryCode(rset.getString("city.CountryCode"));
+                 city.setDistrictName(rset.getString("city.District"));
+                 city.setPopulation(rset.getInt("city.Population"));
+                 cities.add(city);
+             }
+             return cities;
+         } catch (Exception e) {
+             System.out.println(e.getMessage());
+             System.out.println("Failed to get region data");
+             return null;
+         }
+     }
     }
     /**
      * view the population of people, people living in cities,
@@ -868,6 +884,10 @@ public class DatabaseSingleton {
             // Extract language information
             System.out.printf("%-25s %-25s %-25s %-25s%n", "Country", "Population","People living in cities","People not living in cities");
             while (rset.next()) {
+                if(rset.getString("Country").isEmpty() || rset.getString("Country")==null) {System.out.println("No country."); }
+                else if(rset.getInt("Population")<=0){System.out.println("No Population");}
+                    else if(rset.getInt("People living in cities")<=0){System.out.println("No Population living in cities");}
+                        else  if(rset.getInt("People not living in cities")<=0) {System.out.println("No Population not living in cities");}
                 System.out.printf("%-25s %-25s %-25s %-25s%n", rset.getString("Country"), rset.getInt("Population"),rset.getInt("People living in cities"),rset.getInt("People not living in cities"));
             }
 

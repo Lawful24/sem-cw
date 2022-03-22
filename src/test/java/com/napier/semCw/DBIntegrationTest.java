@@ -78,4 +78,34 @@ public class DBIntegrationTest {
             assertTrue(c.getPopulation() >= 0);
         }
     }
+
+    @Test
+    void TesttopNCapitalCitiesInContinent(){
+        ArrayList<City> cities = db.topNCapitalCitiesInContinent("Europe",3);
+        for (City c : cities) {
+            assertTrue(c.getId() >= 0);
+            assertNotNull(c.getCountryCode());
+            assertNotNull(c.getName());
+            assertNotNull(c.getDistrictName());
+            assertTrue(c.getPopulation() >= 0);
+        }
+    };
+
+    @Test
+    void TesttopNCapitalCitiesInWorld(){
+        ArrayList<City> cities = db.topNCapitalCitiesInWorld(3);
+        for (City c : cities) {
+            assertTrue(c.getId() >= 0);
+            assertNotNull(c.getCountryCode());
+            assertNotNull(c.getName());
+            assertNotNull(c.getDistrictName());
+            assertTrue(c.getPopulation() >= 0);
+        }
+    };
+
+    @Test
+    void TestpeopleICNCinEachCountry(){
+        db.peopleICNCinEachCountry();
+    };
+
 }

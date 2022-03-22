@@ -110,24 +110,41 @@ public class UnitTest {
         assertNull(db.topNCapitalCitiesInRegion("W",3));
     };
 
-
+    @Test
+    void topNCapitalCitiesInRegionInvalidNumber(){
+        assertNull(db.topNCapitalCitiesInRegion("Eastern Europe",-3));
+    };
 
     /**
      * @Tests for topNCapitalCitiesInContinent Method
      */
     @Test
-    void topNCapitalCitiesInContinent(){};
+    void topNCapitalCitiesInContinentNull(){
+        assertEquals(db.topNCapitalCitiesInContinent(null,4),null);
+    };
+
+    @Test
+    void topNCapitalCitiesInContinentEmptyString(){
+        assertEquals(db.topNCapitalCitiesInContinent(" ",4),null);
+    };
+
+    @Test
+    void topNCapitalCitiesInContinentContainsNull(){
+        assertNull(db.topNCapitalCitiesInContinent("W",3));
+    };
+
+    @Test
+    void topNCapitalCitiesInContinentInvalidNumber(){
+        assertNull(db.topNCapitalCitiesInContinent("Europe",-3));
+    };
 
     /**
      * @Tests for topNCapitalCitiesInWorld Method
      */
-    @Test
-    void topNCapitalCitiesInWorld(){}
+   @Test
+    void topNCapitalCitiesInWorldInvalidNumber(){
+        assertNull(db.topNCapitalCitiesInWorld(-3));
+    };
 
-    /**
-     * @Tests for peopleICNCinEachCountry Method
-     */
-    @Test
-    void peopleICNCinEachCountry(){};
 
 }
