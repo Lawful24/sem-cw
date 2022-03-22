@@ -42,6 +42,28 @@ public class Country {
      */
     public String language;
 
+    // Constructors
+
+    public Country() {
+        this.code = "";
+        this.name = "";
+        this.continent = "";
+        this.region = "";
+        this.population = 0;
+        this.capitalID = 0;
+        this.language = "";
+    }
+
+    public Country(String code, String name, String continent, String region, int population, int capitalID, String language) {
+        this.code = code;
+        this.name = name;
+        this.continent = continent;
+        this.region = region;
+        this.population = population;
+        this.capitalID = capitalID;
+        this.language = language;
+    }
+
     /**
      * Getter country code
      * @return code

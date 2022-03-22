@@ -100,7 +100,7 @@ public class DatabaseSingleton {
             return countries;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get salary details");
+            System.out.println("Failed to get country details");
             return null;
         }
     }
@@ -111,17 +111,22 @@ public class DatabaseSingleton {
      * @param countries: a list of countries extracted from the database
      */
     public void sortCountriesByPopulation(ArrayList<Country> countries) {
-        boolean sorted = false;
-        while (!sorted) {
-            sorted = true;
-            // Reverse bubble sort
-            for (int i = countries.size() - 1; i > 0; i--) {
-                if (countries.get(i).code.equals(countries.get(i).comparePopulationTo(countries.get(i - 1)).code)) {
-                    countries.set(i - 1, countries.set(i, countries.get(i - 1))); // switch adjacent elements
-                    sorted = false; // flip flag if an element was modified
+        if (countries != null && !countries.isEmpty()) {
+            boolean sorted = false;
+            while (!sorted) {
+                sorted = true;
+                // Reverse bubble sort
+                for (int i = countries.size() - 1; i > 0; i--) {
+                    if (countries.get(i).code.equals(countries.get(i).comparePopulationTo(countries.get(i - 1)).code)) {
+                        countries.set(i - 1, countries.set(i, countries.get(i - 1))); // switch adjacent elements
+                        sorted = false; // flip flag if an element was modified
+                    }
                 }
             }
+        } else {
+            System.out.println("Failed to sort list, there was no argument provided.");
         }
+
     }
 
     /**
@@ -130,9 +135,17 @@ public class DatabaseSingleton {
      * @param countries: a list of countries extracted from the database
      */
     public void printAllCountries(ArrayList<Country> countries) {
-        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
-        for (Country c : countries) {
-            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+        if (countries != null && !countries.isEmpty()) {
+            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+            for (Country c : countries) {
+                if (c != null) {
+                    System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+                } else {
+                    System.out.println("Missing element!");
+                }
+            }
+        } else {
+            System.out.println("Failed to print list, there was no argument provided.");
         }
     }
 
@@ -142,12 +155,18 @@ public class DatabaseSingleton {
      * @param countries:     a list of countries extracted from the database
      * @param continentName: the name of the continent to print the countries of
      */
-    public void printAllCountries(ArrayList<Country> countries, String continentName) {
-        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
-        for (Country c : countries) {
-            if (continentName.equals(c.continent)) {
-                System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+    public void printAllCountriesInContinent(ArrayList<Country> countries, String continentName) {
+        if (countries != null && !countries.isEmpty() && continentName != null && !continentName.isEmpty()) {
+            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+            for (Country c : countries) {
+                if (c != null) {
+                    if (continentName.equals(c.continent)) {
+                        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+                    }
+                }
             }
+        } else {
+            System.out.println("Failed to print list, not enough or no arguments provided.");
         }
     }
 
@@ -158,11 +177,19 @@ public class DatabaseSingleton {
      * @param regionName: the name of the region to print the countries of
      */
     public void printAllCountriesInRegion(ArrayList<Country> countries, String regionName) {
-        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
-        for (Country c : countries) {
-            if (regionName.equals(c.region)) {
-                System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+        if (countries != null && !countries.isEmpty() && regionName != null && !regionName.isEmpty()) {
+            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+            for (Country c : countries) {
+                if (c != null) {
+                    if (regionName.equals(c.region)) {
+                        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", c.code, c.name, c.continent, c.region, c.population, c.capitalID);
+                    }
+                } else {
+                    System.out.println("Missing element!");
+                }
             }
+        } else {
+            System.out.println("Failed to print list, not enough or no arguments provided.");
         }
     }
 
@@ -173,15 +200,28 @@ public class DatabaseSingleton {
      * @param n:          the amount of countries the user wishes to print
      */
     public void printTopNPopulatedCountries(ArrayList<Country> sortedList, int n) {
-        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
-        for (int i = 0; i < n; i++) {
-            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n",
-                    sortedList.get(i).code,
-                    sortedList.get(i).name,
-                    sortedList.get(i).continent,
-                    sortedList.get(i).region,
-                    sortedList.get(i).population,
-                    sortedList.get(i).capitalID);
+        if (sortedList != null && !sortedList.isEmpty()) {
+            if (n <= sortedList.size() && n > 0) {
+                System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+                for (int i = 0; i < n; i++) {
+                    if (sortedList.get(i) != null) {
+                        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n",
+                                sortedList.get(i).code,
+                                sortedList.get(i).name,
+                                sortedList.get(i).continent,
+                                sortedList.get(i).region,
+                                sortedList.get(i).population,
+                                sortedList.get(i).capitalID);
+                    }
+                    System.out.println("Missing elements!");
+                }
+            } else if (n > sortedList.size()) {
+                System.out.println("There are only " + sortedList.size() + " cities stored in the database.");
+            } else {
+                System.out.println("Please enter a valid number.");
+            }
+        } else {
+            System.out.println("Failed to print list, there was no argument provided.");
         }
     }
 
@@ -214,7 +254,7 @@ public class DatabaseSingleton {
             return cities;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get salary details");
+            System.out.println("Failed to get city details");
             return null;
         }
     }
@@ -225,15 +265,17 @@ public class DatabaseSingleton {
      * @param cities: a list of cities extracted from the database
      */
     public void printAllCities(ArrayList<City> cities) {
-        if (cities == null) {
-            System.out.println("No cities");
-        } else {
+        if (cities != null && !cities.isEmpty()) {
             System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
             for (City c : cities) {
-                if (c == null)
-                    continue;
-                System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", c.getId(), c.getName(), c.getCountryCode(), c.getDistrictName(), c.getPopulation());
+                if (c != null) {
+                    System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", c.getId(), c.getName(), c.getCountryCode(), c.getDistrictName(), c.getPopulation());
+                } else {
+                    System.out.println("Missing element!");
+                }
             }
+        } else {
+            System.out.println("Failed to print list, there was no argument provided.");
         }
     }
 
@@ -243,16 +285,20 @@ public class DatabaseSingleton {
      * @param cities: a list of cities extracted from the database
      */
     public void sortCitiesByPopulation(ArrayList<City> cities) {
-        boolean sorted = false;
-        while (!sorted) {
-            sorted = true;
-            // Reverse bubble sort
-            for (int i = cities.size() - 1; i > 0; i--) {
-                if (cities.get(i).getId() == cities.get(i).comparePopulationTo(cities.get(i - 1)).getId()) {
-                    cities.set(i - 1, cities.set(i, cities.get(i - 1))); // switch adjacent elements
-                    sorted = false; // flip flag if an element was modified
+        if (cities != null && !cities.isEmpty()) {
+            boolean sorted = false;
+            while (!sorted) {
+                sorted = true;
+                // Reverse bubble sort
+                for (int i = cities.size() - 1; i > 0; i--) {
+                    if (cities.get(i).getId() == cities.get(i).comparePopulationTo(cities.get(i - 1)).getId()) {
+                        cities.set(i - 1, cities.set(i, cities.get(i - 1))); // switch adjacent elements
+                        sorted = false; // flip flag if an element was modified
+                    }
                 }
             }
+        } else {
+            System.out.println("Failed to sort list, there was no argument provided.");
         }
     }
 
@@ -263,24 +309,32 @@ public class DatabaseSingleton {
      * @param n:      the amount of cities the user wishes to print
      */
     public void printTopNPopulatedCities(ArrayList<City> cities, int n) {
-        if (n <= cities.size() && n > 0) {
-            // Sort the list in case it hasn't been sorted yet
-            sortCitiesByPopulation(cities);
+        if (cities != null && !cities.isEmpty()) {
+            if (n <= cities.size() && n > 0) {
+                // Sort the list in case it hasn't been sorted yet
+                sortCitiesByPopulation(cities);
 
-            // Print out given amount of records
-            System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
-            for (int i = 0; i < n; i++) {
-                System.out.printf("%-5s %-35s %-11s %-20s %-10s%n",
-                        cities.get(i).getId(),
-                        cities.get(i).getName(),
-                        cities.get(i).getCountryCode(),
-                        cities.get(i).getDistrictName(),
-                        cities.get(i).getPopulation());
+                // Print out given amount of records
+                System.out.printf("%-5s %-35s %-11s %-20s %-10s%n", "ID", "Name", "CountryCode", "District", "Population");
+                for (int i = 0; i < n; i++) {
+                    if (cities.get(i) != null) {
+                        System.out.printf("%-5s %-35s %-11s %-20s %-10s%n",
+                                cities.get(i).getId(),
+                                cities.get(i).getName(),
+                                cities.get(i).getCountryCode(),
+                                cities.get(i).getDistrictName(),
+                                cities.get(i).getPopulation());
+                    } else {
+                        System.out.println("Missing element!");
+                    }
+                }
+            } else if (n > cities.size()) {
+                System.out.println("There are only " + cities.size() + " cities stored in the database.");
+            } else {
+                System.out.println("Please enter a valid number.");
             }
-        } else if (n > cities.size()) {
-            System.out.println("There are only " + cities.size() + " cities stored in the database.");
         } else {
-            System.out.println("Please enter a valid number.");
+            System.out.println("Failed to print list, there was no argument provided.");
         }
     }
 
@@ -571,10 +625,19 @@ public class DatabaseSingleton {
      * @param languages: a list of languages extracted from the database
      */
     public void printAllLanguages(ArrayList<Language> languages) {
-        System.out.printf("%-12s %-30s %-11s %-10s%n", "Country Code", "Language", "Is Official", "Percentage");
-        for (Language l : languages) {
-            System.out.printf("%-12s %-30s %-11s %-10s%n", l.getCountryCode(), l.getLanguage(), l.isOfficial(), l.getPercentage());
+        if (languages != null && !languages.isEmpty()) {
+            System.out.printf("%-12s %-30s %-11s %-10s%n", "Country Code", "Language", "Is Official", "Percentage");
+            for (Language l : languages) {
+                if (l != null) {
+                    System.out.printf("%-12s %-30s %-11s %-10s%n", l.getCountryCode(), l.getLanguage(), l.isOfficial(), l.getPercentage());
+                } else {
+                    System.out.println("Missing element!");
+                }
+            }
+        } else {
+            System.out.println("Failed to print list, there was no argument provided.");
         }
+
     }
 
     /**

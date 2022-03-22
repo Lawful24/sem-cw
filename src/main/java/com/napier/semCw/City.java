@@ -29,6 +29,15 @@ public class City {
         population = 0;
     }
 
+    public City(int id, String name, String countryCode, String districtName, int population)
+    {
+        this.id = id;
+        this.name = name;
+        this.countryCode = countryCode;
+        this.districtName = districtName;
+        this.population = population;
+    }
+
 
     /**
      * @return id

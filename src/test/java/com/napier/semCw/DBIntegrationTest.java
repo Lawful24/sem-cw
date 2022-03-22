@@ -4,6 +4,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -184,6 +188,118 @@ public class DBIntegrationTest {
      * @Test topNCapitalCitiesInContinent Method
      */
     @Test
+    void getAllCountriesFromDatabaseTestNotNull() {
+        assertNotNull(db.getAllCountriesFromDatabase());
+    }
+
+    @Test
+    void getAllCountriesFromDatabaseTestContainsNull() {
+        List<Country> results = db.getAllCountriesFromDatabase();
+        assertFalse(results.contains(null));
+    }
+
+    @Test
+    void getAllCountriesFromDatabaseTestContainsDefaultObject() {
+        List<Country> results = db.getAllCountriesFromDatabase();
+        for (Country c : results) {
+            assertNotNull(c.code);
+            assertNotNull(c.name);
+            assertNotNull(c.continent);
+            assertNotNull(c.region);
+            assertNotNull(c.language);
+        }
+    }
+
+    @Test
+    void getAllCitiesFromDatabaseTestNotNull() {
+        assertNotNull(db.getAllCitiesFromDatabase());
+    }
+
+    @Test
+    void getAllCitiesFromDatabaseTestContainsNull() {
+        List<City> results = db.getAllCitiesFromDatabase();
+        assertFalse(results.contains(null));
+    }
+
+    @Test
+    void getAllCitiesFromDatabaseTestContainsDefaultObject() {
+        List<City> results = db.getAllCitiesFromDatabase();
+        for (City c : results) {
+            assertNotNull(c.getCountryCode());
+            assertNotNull(c.getName());
+            assertNotNull(c.getDistrictName());
+            assertTrue(c.getId() >= 0);
+            assertTrue(c.getPopulation() >= 0);
+        }
+    }
+
+    @Test
+    void getAllLanguagesFromDatabaseTestNotNull() {
+        assertNotNull(db.getAllLanguagesFromDatabase());
+    }
+
+    @Test
+    void getAllLanguagesFromDatabaseTestContainsNull() {
+        List<Language> results = db.getAllLanguagesFromDatabase();
+        assertFalse(results.contains(null));
+    }
+
+    @Test
+    void getAllLanguagesFromDatabaseTestContainsDefaultObject() {
+        List<Language> results = db.getAllLanguagesFromDatabase();
+        for (Language l : results) {
+            assertNotNull(l.getCountryCode());
+            assertNotNull(l.getLanguage());
+            assertTrue(l.getPercentage() >= 0);
+        }
+    }
+
+    @Test
+    void printAllCountries() {
+        db.printAllCountries(db.getAllCountriesFromDatabase());
+    }
+
+    @Test
+    void printAllCountriesInContinent() {
+        db.printAllCountriesInContinent(db.getAllCountriesFromDatabase(), "Antarctica");
+    }
+
+    @Test
+    void printAllCountriesInRegion() {
+        db.printAllCountriesInRegion(db.getAllCountriesFromDatabase(), "Antarctica");
+    }
+
+    @Test
+    void printAllCities() {
+        db.printAllCities(db.getAllCitiesFromDatabase());
+    }
+
+    @Test
+    void printAllLanguages() {
+        db.printAllLanguages(db.getAllLanguagesFromDatabase());
+    }
+
+    @Test
+    void sortCountriesByPopulation() {
+        ArrayList<Country> countries = db.getAllCountriesFromDatabase();
+        db.sortCountriesByPopulation(countries);
+    }
+
+    @Test
+    void sortCitiesByPopulation() {
+        ArrayList<City> cities = db.getAllCitiesFromDatabase();
+        db.sortCitiesByPopulation(cities);
+    }
+
+    @Test
+    void printTopNPopulatedCountriesTest() {
+        db.printTopNPopulatedCountries(db.getAllCountriesFromDatabase(), 10);
+    }
+
+    @Test
+    void printTopNPopulatedCitiesTest() {
+        db.printTopNPopulatedCities(db.getAllCitiesFromDatabase(), 10);
+    }
     void TesttopNCapitalCitiesInContinent(){
         ArrayList<City> cities = db.topNCapitalCitiesInContinent("Europe",3);
         for (City c : cities) {
