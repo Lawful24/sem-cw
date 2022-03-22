@@ -200,6 +200,39 @@ public class UnitTest {
     }
 
     @Test
+    void printTopNPopulatedCountriesTestNull() {
+        db.printTopNPopulatedCountries(null, 10);
+    }
+
+    @Test
+    void printTopNPopulatedCountriesTestEmpty() {
+        db.printTopNPopulatedCountries(new ArrayList<>(), 10);
+    }
+
+    @Test
+    void printTopNPopulatedCountriesTestContainsNull() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(null);
+        db.printTopNPopulatedCountries(countries, 1);
+    }
+
+    @Test
+    void printTopNPopulatedCountriesTestContainsEmpty() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(new Country());
+        db.printTopNPopulatedCountries(countries, 1);
+    }
+
+    @Test
+    void printTopNPopulatedCountriesTestOutOfRange() {
+        ArrayList<Country> countries = new ArrayList<>();
+        countries.add(new Country("USA", "United States Of America", "North America", "North America", 13000000, 1, "English"));
+        countries.add(new Country("CAN", "Canada", "North America", "North America", 50000000, 2, "English"));
+        db.printTopNPopulatedCountries(countries, 0);
+        db.printTopNPopulatedCountries(countries, countries.size() + 1);
+    }
+
+    @Test
     void printTopNPopulatedCitiesTestNull() {
         db.printTopNPopulatedCities(null, 10);
     }
@@ -226,8 +259,8 @@ public class UnitTest {
     @Test
     void printTopNPopulatedCitiesTestOutOfRange() {
         ArrayList<City> cities = new ArrayList<>();
-        cities.add(new City(1, "Dean Town", "USA", "North America", 5));
-        cities.add(new City(2, "Lonely Town", "USA", "North America", 1));
+        cities.add(new City(1, "Dean Town", "USA", "North Dakota", 5));
+        cities.add(new City(2, "Lonely Town", "USA", "North Dakota", 1));
         db.printTopNPopulatedCities(cities, 0);
         db.printTopNPopulatedCities(cities, cities.size() + 1);
     }

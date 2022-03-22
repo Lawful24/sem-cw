@@ -86,6 +86,11 @@ public class DBIntegrationTest {
 
     @Test
     void printTopNPopulatedCountriesTest() {
+        db.printTopNPopulatedCountries(db.getAllCountriesFromDatabase(), 10);
+    }
+
+    @Test
+    void printTopNPopulatedCitiesTest() {
         db.printTopNPopulatedCities(db.getAllCitiesFromDatabase(), 10);
     }
 }

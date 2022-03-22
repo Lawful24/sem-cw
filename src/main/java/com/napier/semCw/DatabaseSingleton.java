@@ -186,15 +186,28 @@ public class DatabaseSingleton {
      * @param n: the amount of countries the user wishes to print
      */
     public void printTopNPopulatedCountries(ArrayList<Country> sortedList, int n) {
-        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
-        for (int i = 0; i < n; i++) {
-            System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n",
-                    sortedList.get(i).code,
-                    sortedList.get(i).name,
-                    sortedList.get(i).continent,
-                    sortedList.get(i).region,
-                    sortedList.get(i).population,
-                    sortedList.get(i).capitalID);
+        if (sortedList != null && !sortedList.isEmpty()) {
+            if (n <= sortedList.size() && n > 0) {
+                System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n", "Code", "Name", "Continent", "Region", "Population", "CapitalID");
+                for (int i = 0; i < n; i++) {
+                    if (sortedList.get(i) != null) {
+                        System.out.printf("%-4s %-44s %-13s %-25s %-10s %-5s%n",
+                                sortedList.get(i).code,
+                                sortedList.get(i).name,
+                                sortedList.get(i).continent,
+                                sortedList.get(i).region,
+                                sortedList.get(i).population,
+                                sortedList.get(i).capitalID);
+                    }
+                    System.out.println("Missing elements!");
+                }
+            } else if (n > sortedList.size()) {
+                System.out.println("There are only " + sortedList.size() + " cities stored in the database.");
+            } else {
+                System.out.println("Please enter a valid number.");
+            }
+        } else {
+            System.out.println("Failed to print list, there was no argument provided.");
         }
     }
 
