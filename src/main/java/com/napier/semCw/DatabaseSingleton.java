@@ -939,7 +939,7 @@ public class DatabaseSingleton {
 
             if(n< arraySize)
             {
-                System.out.println("There aren't that many countries, choose a smaller N");
+                System.out.println("There aren't that many cities, choose a smaller N");
                 return null;
             }
 
@@ -996,7 +996,7 @@ public class DatabaseSingleton {
             int arraySize = cities.size();
             if(n< arraySize)
             {
-                System.out.println("There aren't that many countries, choose a smaller N");
+                System.out.println("There aren't that many cities, choose a smaller N");
                 return null;
             }
 
@@ -1018,6 +1018,19 @@ public class DatabaseSingleton {
      */
 
     public ArrayList<City> printTopNPopulatedCitiesPerRegion(String regionName, int n) {
+
+        if(regionName == null ||  regionName == "")
+        {
+            System.out.println("Region input is nonexistent.");
+            return null;
+        }
+
+        if(n<=0)
+        {
+            System.out.println("N must be bigger then 0.");
+            return null;
+        }
+
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -1036,6 +1049,14 @@ public class DatabaseSingleton {
                 c.setPopulation(rset.getInt("city.Population"));
                 cities.add(c);
             }
+
+            int arraySize = cities.size();
+            if(n< arraySize)
+            {
+                System.out.println("There aren't that many cities, choose a smaller N");
+                return null;
+            }
+
             System.out.printf("%-10s %-35s %n", "Population", "Name");
             return cities;
 
@@ -1054,6 +1075,19 @@ public class DatabaseSingleton {
      */
 
     public ArrayList<City> printTopNPopulatedCitiesPerCountry(String countryName, int n) {
+
+        if(countryName == null ||  countryName =="")
+        {
+            System.out.println("Country input is nonexistent.");
+            return null;
+        }
+
+        if(n<=0)
+        {
+            System.out.println("N must be bigger then 0.");
+            return null;
+        }
+
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -1072,6 +1106,13 @@ public class DatabaseSingleton {
                 c.setPopulation(rset.getInt("city.Population"));
                 cities.add(c);
             }
+            int arraySize = cities.size();
+            if(n< arraySize)
+            {
+                System.out.println("There aren't that many cities, choose a smaller N");
+                return null;
+            }
+
             System.out.printf("%-35s %-10s %n", "Name", "Population");
             return cities;
 
@@ -1090,6 +1131,11 @@ public class DatabaseSingleton {
      */
 
     public ArrayList<Country> printTopNPopulatedCountriesPerRegion(String region, int n) {
+
+
+
+
+
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
