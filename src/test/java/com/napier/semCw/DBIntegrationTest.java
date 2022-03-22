@@ -83,4 +83,9 @@ public class DBIntegrationTest {
             assertTrue(l.getPercentage() >= 0);
         }
     }
+
+    @Test
+    void printTopNPopulatedCountriesTest() {
+        db.printTopNPopulatedCities(db.getAllCitiesFromDatabase(), 10);
+    }
 }

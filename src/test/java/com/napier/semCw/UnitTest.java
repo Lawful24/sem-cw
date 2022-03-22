@@ -198,4 +198,37 @@ public class UnitTest {
         ArrayList<City> cities = db.getAllCitiesFromDatabase();
         db.sortCitiesByPopulation(cities);
     }
+
+    @Test
+    void printTopNPopulatedCitiesTestNull() {
+        db.printTopNPopulatedCities(null, 10);
+    }
+
+    @Test
+    void printTopNPopulatedCitiesTestEmpty() {
+        db.printTopNPopulatedCities(new ArrayList<>(), 10);
+    }
+
+    @Test
+    void printTopNPopulatedCitiesTestContainsNull() {
+        ArrayList<City> cities = new ArrayList<>();
+        cities.add(null);
+        db.printTopNPopulatedCities(cities, 1);
+    }
+
+    @Test
+    void printTopNPopulatedCitiesTestContainsEmpty() {
+        ArrayList<City> cities = new ArrayList<>();
+        cities.add(new City());
+        db.printTopNPopulatedCities(cities, 1);
+    }
+
+    @Test
+    void printTopNPopulatedCitiesTestOutOfRange() {
+        ArrayList<City> cities = new ArrayList<>();
+        cities.add(new City(1, "Dean Town", "USA", "North America", 5));
+        cities.add(new City(2, "Lonely Town", "USA", "North America", 1));
+        db.printTopNPopulatedCities(cities, 0);
+        db.printTopNPopulatedCities(cities, cities.size() + 1);
+    }
 }
