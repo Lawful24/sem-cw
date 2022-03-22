@@ -121,40 +121,66 @@ public class DBIntegrationTest {
         assertEquals(db.printTopNPopulatedCitiesPerCountry("Honduras", -1),null);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
     //issue #11
     @Test
     void printTopNPopulatedCountriesPerRegionTestRegionIsNull() {
-        assertEquals(db.printTopNPopulatedCitiesPerRegion(null, 5),null);
+        assertEquals(db.printTopNPopulatedCountriesPerRegion(null, 5),null);
     }
 
     @Test
     void printTopNPopulatedCountriesPerRegionTestRegionIsEmpty() {
-        assertEquals(db.printTopNPopulatedCitiesPerRegion("", 5),null);
+        assertEquals(db.printTopNPopulatedCountriesPerRegion("", 5),null);
     }
 
     @Test
     void printTopNPopulatedCountriesPerRegionTestNIsZero() {
-        assertEquals(db.printTopNPopulatedCitiesPerRegion("Central America", 0),null);
+        assertEquals(db.printTopNPopulatedCountriesPerRegion("Central America", 0),null);
     }
 
     @Test
     void printTopNPopulatedCountriesPerRegionTestNIsNegative() {
-        assertEquals(db.printTopNPopulatedCitiesPerRegion("Central America", -3),null);
+        assertEquals(db.printTopNPopulatedCountriesPerRegion("Central America", -3),null);
     }
 
+    //issue #12
 
+    @Test
+    void printTopNPopulatedCitiesPerDistrictTestDistrictIsNull() {
+        assertEquals(db.printTopNPopulatedCitiesPerDistrict(null, 5),null);
+    }
+    @Test
+    void printTopNPopulatedCitiesPerDistrictTestDistrictIsEmpty() {
+        assertEquals(db.printTopNPopulatedCitiesPerDistrict("", 5),null);
+    }
+    @Test
+    void printTopNPopulatedCitiesPerDistrictTestNIsZero() {
+        assertEquals(db.printTopNPopulatedCitiesPerDistrict("Herat", 0),null);
+    }
+    @Test
+    void printTopNPopulatedCitiesPerDistrictTestNIsNegative() {
+        assertEquals(db.printTopNPopulatedCitiesPerDistrict("Herat", -5),null);
+    }
+
+    //issue #13
+    @Test
+    void printCapitalCitiesFromLargestToSmallestTest() {
+        assertNotNull(db.printCapitalCitiesFromLargestToSmallest());
+    }
+
+    //issue14
+    @Test
+    void printCapitalCitiesFromLargestToSmallestInAContinentTestContinentIsNull() {
+        assertEquals(db.printCapitalCitiesFromLargestToSmallestInAContinent(null),null);
+    }
+
+    @Test
+    void printCapitalCitiesFromLargestToSmallestInAContinentTestContinentIsEmpty() {
+        assertEquals(db.printCapitalCitiesFromLargestToSmallestInAContinent(""),null);
+    }
+
+    //issue 15
+    @Test
+    void printAllCitiesFromLargestToSmallest() {
+        assertNotNull(db.printAllCitiesFromLargestToSmallest());
+    }
 }

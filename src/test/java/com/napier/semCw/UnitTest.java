@@ -11,7 +11,6 @@ public class UnitTest {
     @BeforeAll
     static void init() {
         db = DatabaseSingleton.getInstance();
-        db.connect("localhost:33060", 30000);
     }
 
     @Test

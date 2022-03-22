@@ -871,6 +871,7 @@ public class DatabaseSingleton {
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
 
+            //get sql results
             ArrayList<Country> countries = new ArrayList<>();
             while (rset.next()) {
                 Country c = new Country();
@@ -888,6 +889,7 @@ public class DatabaseSingleton {
                 return null;
             }
 
+            //print results
             System.out.printf("%-13s %-44s %-10s %n", "Continent", "Name", "Population");
             for (Country c : countries)
             {
@@ -908,6 +910,7 @@ public class DatabaseSingleton {
      * Prints the top n populated cities in the world where n is provided
      *
      * @param n : number of cities the user wants to print out
+     * @return cities
      */
 
     public ArrayList<City> printTopNPopulatedCitiesInTheWorld(int n) {
@@ -929,6 +932,7 @@ public class DatabaseSingleton {
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             ArrayList<City> cities = new ArrayList<>();
+            //get sql results
             while (rset.next()) {
                 City c = new City();
                 c.setName(rset.getString("city.Name"));
@@ -943,7 +947,12 @@ public class DatabaseSingleton {
                 return null;
             }
 
+            //print results
             System.out.printf("%-35s %-10s %n", "city.Name", "city.Population");
+            for (City c : cities)
+            {
+                System.out.printf("%-35s %-10s %n", c.getName(), c.getPopulation());
+            }
             return cities;
 
         } catch (Exception e) {
@@ -959,6 +968,7 @@ public class DatabaseSingleton {
      *
      * @param continent
      * @param n : number of cities the user wants to print out
+     * @return cities
      */
 
     public ArrayList<City> printTopNPopulatedCitiesPerContinent(String continent, int n) {
@@ -987,6 +997,8 @@ public class DatabaseSingleton {
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             ArrayList<City> cities = new ArrayList<>();
+
+            //get sql results
             while (rset.next()) {
                 City c = new City();
                 c.setName(rset.getString("city.Name"));
@@ -999,8 +1011,12 @@ public class DatabaseSingleton {
                 System.out.println("There aren't that many cities, choose a smaller N");
                 return null;
             }
-
-            System.out.printf("%-35-n %-10s %n", "Name", "Population");
+            //print results
+            System.out.printf("%-35s %-10s %n", "Name", "Population");
+            for (City c : cities)
+            {
+                System.out.printf("%-35s %-10s %n", c.getName(), c.getPopulation());
+            }
             return cities;
 
         } catch (Exception e) {
@@ -1015,6 +1031,7 @@ public class DatabaseSingleton {
      *
      * @param regionName : name of region
      * @param n : number of cities the user wants to print out
+     * @return cities
      */
 
     public ArrayList<City> printTopNPopulatedCitiesPerRegion(String regionName, int n) {
@@ -1057,7 +1074,11 @@ public class DatabaseSingleton {
                 return null;
             }
 
-            System.out.printf("%-10s %-35s %n", "Population", "Name");
+            System.out.printf("%-35s %-10s %n", "Name", "Population");
+            for (City c : cities)
+            {
+                System.out.printf("%-35s %-10s %n", c.getName(), c.getPopulation());
+            }
             return cities;
 
         } catch (Exception e) {
@@ -1072,6 +1093,7 @@ public class DatabaseSingleton {
      *
      * @param countryName : name of country
      * @param n : number of countries the user wants to print out
+     * @return cities
      */
 
     public ArrayList<City> printTopNPopulatedCitiesPerCountry(String countryName, int n) {
@@ -1100,6 +1122,8 @@ public class DatabaseSingleton {
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             ArrayList<City> cities = new ArrayList<City>();
+
+            //get sql results
             while (rset.next()) {
                 City c = new City();
                 c.setName(rset.getString("city.Name"));
@@ -1113,7 +1137,12 @@ public class DatabaseSingleton {
                 return null;
             }
 
+            //print results
             System.out.printf("%-35s %-10s %n", "Name", "Population");
+            for (City c : cities)
+            {
+                System.out.printf("%-35s %-10s %n", c.getName(), c.getPopulation());
+            }
             return cities;
 
         } catch (Exception e) {
@@ -1126,15 +1155,24 @@ public class DatabaseSingleton {
     /**
      * Prints the top n populated countries in a region where n is provided
      *
-     * @param region
+     * @param regionName
      * @param n : number of countries the user wants to print out
+     * @return countries
      */
 
-    public ArrayList<Country> printTopNPopulatedCountriesPerRegion(String region, int n) {
+    public ArrayList<Country> printTopNPopulatedCountriesPerRegion(String regionName, int n) {
 
+        if(regionName == null ||  regionName =="")
+        {
+            System.out.println("Region input is nonexistent.");
+            return null;
+        }
 
-
-
+        if(n<=0)
+        {
+            System.out.println("N must be bigger then 0.");
+            return null;
+        }
 
         try {
             // Create an SQL statement
@@ -1143,11 +1181,12 @@ public class DatabaseSingleton {
             String strSelect =
                     "SELECT * "
                             + "FROM world.country"
-                            + "WHERE `Region` = '" + region
+                            + "WHERE `Region` = '" + regionName
                             + " 'ORDER BY world.city.Population` desc " + n;
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             ArrayList<Country> countries = new ArrayList<>();
+            //get sql results
             while (rset.next()) {
                 Country c = new Country();
                 c.setRegion(rset.getString("country.Region"));
@@ -1155,7 +1194,18 @@ public class DatabaseSingleton {
                 c.setPopulation(rset.getInt("country.Population"));
                 countries.add(c);
             }
+            int arraySize = countries.size();
+            if(n< arraySize)
+            {
+                System.out.println("There aren't that many countries, choose a smaller N");
+                return null;
+            }
+            //print results
             System.out.printf("%-25s %-44s %-10s %n", "Region", "Name", "Population");
+            for (Country c : countries)
+            {
+                System.out.printf("%-25s %-44s  %-10s %n", c.getRegion(),c.getName(), c.getPopulation());
+            }
             return countries;
 
         } catch (Exception e) {
@@ -1170,9 +1220,23 @@ public class DatabaseSingleton {
      *
      * @param districtName
      * @param n : number of cities the user wants to print out
+     * @return cities
      */
 
     public ArrayList<City> printTopNPopulatedCitiesPerDistrict(String districtName, int n) {
+
+        if(districtName == null ||  districtName =="")
+        {
+            System.out.println("District input is nonexistent.");
+            return null;
+        }
+
+        if(n<=0)
+        {
+            System.out.println("N must be bigger then 0.");
+            return null;
+        }
+
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -1185,6 +1249,7 @@ public class DatabaseSingleton {
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             ArrayList<City> cities = new ArrayList<>();
+            //get sql results
             while (rset.next()) {
                 City c = new City();
                 c.setDistrictName(rset.getString("city.District"));
@@ -1192,7 +1257,18 @@ public class DatabaseSingleton {
                 c.setPopulation(rset.getInt("city.Population"));
                 cities.add(c);
             }
-            System.out.printf("%-20s %-35s %-10s %n", "District", "Name", "Population");
+            int arraySize = cities.size();
+            if(n< arraySize)
+            {
+                System.out.println("There aren't that many countries, choose a smaller N");
+                return null;
+            }
+            //write sql results
+            System.out.printf("%-35s %-20s %-10s %n", "Name", "District", "Population");
+            for (City c : cities)
+            {
+                System.out.printf("%-35s %-20s %-10s %n",c.getName(), c.getDistrictName(), c.getPopulation());
+            }
             return cities;
 
         } catch (Exception e) {
@@ -1204,6 +1280,7 @@ public class DatabaseSingleton {
 
     /**
      * Prints all the capital cities organized from largest to smallest based on population
+     * return cities
      */
 
     public ArrayList<City> printCapitalCitiesFromLargestToSmallest() {
@@ -1213,11 +1290,12 @@ public class DatabaseSingleton {
             // Create string for SQL statement
             String strSelect =
                     "SELECT * "
-                            + "FROM world.country JOIN world.city ON (`country.capital` = `city.id`)"
-                            + " 'ORDER BY world.city.Population desc";
+                            + "FROM world.country JOIN world.city ON (world.country.`Capital` = world.city.`ID`) "
+                            + " ORDER BY world.city.`Population` desc";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             ArrayList<City> cities = new ArrayList<>();
+            //get sql results in list
             while (rset.next()) {
                 City c = new City();
                 c.setName(rset.getString("city.Name"));
@@ -1226,6 +1304,59 @@ public class DatabaseSingleton {
 
             }
             System.out.printf("%-35s %-10s %n", "Name", "Population");
+            for (City c : cities)
+            {
+                System.out.printf("%-35s %-10s %n",c.getName(), c.getPopulation());
+            }
+            return cities;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to list capital cities from largest to smallest");
+            return null;
+        }
+    }
+
+    /**
+     * Prints all the capital cities organized from largest to smallest based on population in a given continent
+     * @param continent
+     * @return cities
+     */
+
+    public ArrayList<City> printCapitalCitiesFromLargestToSmallestInAContinent(String continent) {
+
+        if(continent == null ||  continent =="")
+        {
+            System.out.println("Continent input is nonexistent.");
+            return null;
+        }
+
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT * "
+                            + "FROM world.country JOIN world.city ON (`world.country.Capital` = `world.city.ID`)"
+                            + " WHERE `Continent` = '" + continent
+                            + " 'ORDER `Population` desc";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            ArrayList<City> cities = new ArrayList<>();
+            //get results into arraylist
+            while (rset.next()) {
+                City c = new City();
+                c.setName(rset.getString("city.Name"));
+                c.setPopulation(rset.getInt("city.Population"));
+                cities.add(c);
+
+            }
+            //print results
+            System.out.printf("%-35s %-10s %n", "Name", "Population");
+            for (City c : cities)
+            {
+                System.out.printf("%-35s %-10s %n",c.getName(), c.getPopulation());
+            }
             return cities;
 
         } catch (Exception e) {
@@ -1237,6 +1368,7 @@ public class DatabaseSingleton {
 
     /**
      * Prints all the cities organized from largest to smallest based on population
+     * @return cities
      */
 
     public ArrayList<City> printAllCitiesFromLargestToSmallest() {
@@ -1245,13 +1377,14 @@ public class DatabaseSingleton {
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT city.Name, city.Population "
-                            + "FROM world.city"
-                            + " 'ORDER BY city.Population` desc ";
+                    "SELECT world.city.Name, world.city.Population"
+                            + " FROM world.city"
+                            + " ORDER BY `Population` desc ";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
 
             ArrayList<City> cities = new ArrayList<>();
+            //get sql results into arraylist
             while (rset.next()) {
                 City c = new City();
                 c.setName(rset.getString("city.Name"));
@@ -1259,7 +1392,12 @@ public class DatabaseSingleton {
                 cities.add(c);
 
             }
+            //print result arraylist
             System.out.printf("%-35s %-10s %n", "Name", "Population");
+            for (City c : cities)
+            {
+                System.out.printf("%-35s %-10s %n",c.getName(), c.getPopulation());
+            }
             return cities;
 
         } catch (Exception e) {
