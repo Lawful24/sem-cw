@@ -18,7 +18,7 @@ public class DBIntegrationTest {
     @BeforeAll
     static void init() {
         db = DatabaseSingleton.getInstance();
-        db.connect("localhost:33060", 5000);
+        db.connect("localhost:33060", 30000);
     }
 
     //issue #7
@@ -237,7 +237,9 @@ public class DBIntegrationTest {
 
     @Test
     void printCapitalCitiesFromLargestToSmallestInAContinentTestContinentIsEmpty() {
-        assertEquals(db.printCapitalCitiesFromLargestToSmallestInAContinent(""),null);
+        assertEquals(db.printCapitalCitiesFromLargestToSmallestInAContinent(""),null);}
+
+    @Test
     void countryReportTest1() {
         String countryName = "Hungary";
         assertNotNull(db.printCountryReport(countryName));

@@ -263,11 +263,6 @@ public class UnitTest {
     void getCitiesInCountryOrganisedByLargestEmptyString(){
         assertEquals(db.getCitiesInCountryOrganisedByLargest(""),null);
     };
-    @Test
-    void getCitiesInCountryOrganisedByLargestContainsNull(){
-        assertNull(db.getCitiesInCountryOrganisedByLargest("W"));
-    };
-
     /**
      * @Tests for getCitiesInRegionOrganisedByLargest Method
      */
@@ -279,10 +274,7 @@ public class UnitTest {
     void getCitiesInRegionOrganisedByLargestEmptyString() {
         assertEquals(db.getCitiesInRegionOrganisedByLargest(""),null);
     }
-    @Test
-    void getCitiesInRegionOrganisedByLargestContainsNull() {
-        assertNull(db.getCitiesInRegionOrganisedByLargest("W"));
-    }
+
 
 
     /**
@@ -298,13 +290,6 @@ public class UnitTest {
         assertEquals(db.getCitiesInContinentOrganisedByLargest(""),null);
     };
 
-    @Test
-    void getCitiesInContinentOrganisedByLargestContainsNull(){
-        assertNull(db.getCitiesInContinentOrganisedByLargest("W"));
-    };
-
-
-
     /**
      * @Tests for getCapitalCitiesInRegionOrganisedByLargest Method
      */
@@ -318,12 +303,6 @@ public class UnitTest {
         assertEquals(db.getCapitalCitiesInRegionOrganisedByLargest(""),null);
     };
 
-    @Test
-    void getCapitalCitiesInRegionOrganisedByLargestContainsNull(){
-        assertNull(db.getCapitalCitiesInRegionOrganisedByLargest("W"));
-    };
-
-
     /**
      * @Tests for topNCapitalCitiesInRegion Method
      */
@@ -335,11 +314,6 @@ public class UnitTest {
     @Test
     void topNCapitalCitiesInRegionEmptyString(){
         assertEquals(db.topNCapitalCitiesInRegion("",-3),null);
-    };
-
-    @Test
-    void topNCapitalCitiesInRegionContainsNull(){
-        assertNull(db.topNCapitalCitiesInRegion("W",3));
     };
 
     @Test
@@ -399,16 +373,6 @@ public class UnitTest {
     }
     void topNCapitalCitiesInContinentNull(){
         assertEquals(db.topNCapitalCitiesInContinent(null,4),null);
-    };
-
-    @Test
-    void topNCapitalCitiesInContinentEmptyString(){
-        assertEquals(db.topNCapitalCitiesInContinent(" ",4),null);
-    };
-
-    @Test
-    void topNCapitalCitiesInContinentContainsNull(){
-        assertNull(db.topNCapitalCitiesInContinent("W",3));
     };
 
     @Test
