@@ -497,4 +497,9 @@ public class DBIntegrationTest {
     void printAllCitiesFromLargestToSmallest() {
         assertNotNull(db.printAllCitiesFromLargestToSmallest());
     }
+
+    @Test
+    void printNumOfSpeakersFromList(){
+        db.printNumOfSpeakersFromList(new String[] {"Chinese", "English", "Hindi", "Spanish", "Arabic"});
+    }
 }

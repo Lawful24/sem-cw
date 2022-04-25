@@ -26,6 +26,9 @@ public class DatabaseSingleton {
 
     /**
      * Connect to the MySQL database.
+     *
+     * @param location the address of the database
+     * @param delay the amount of milliseconds the thread should wait until attempting to establish the connection
      */
     public void connect(String location, int delay) {
         try {
@@ -1650,6 +1653,58 @@ public class DatabaseSingleton {
             System.out.println(e.getMessage());
             System.out.println("Failed to list cities from largest to smallest");
             return null;
+        }
+    }
+
+    /**
+     * Prints an ordered list of languages with the number of speakers in the world.
+     *
+     * @param languages the list of languages to be compared
+     */
+    public void printNumOfSpeakersFromList(String[] languages) {
+        if (languages != null && languages.length > 0) {
+            try {
+                // Create an SQL statement
+                Statement stmt = con.createStatement();
+                // Build string for list of countries
+                StringBuilder sb = new StringBuilder();
+                sb.append("SELECT speakers.Language, ");
+                sb.append("(ROUND(SUM((speakers.Percentage * (c.Population / 100))), 0)) AS number_of_speakers, ");
+                sb.append("CONCAT(((ROUND(SUM((speakers.Percentage * (c.Population / 100))), 0)) / (SELECT SUM(country.Population) FROM country) * 100), '%') AS percent_of_population ");
+                sb.append("FROM country c ");
+                sb.append("INNER JOIN ");
+                sb.append("(SELECT countrylanguage.CountryCode, countrylanguage.Language, countrylanguage.Percentage ");
+                sb.append("FROM countrylanguage ");
+                sb.append("WHERE Language = '");
+                sb.append(languages[0]);
+                sb.append("' ");
+
+                for (int i = 1; i < languages.length; i++) {
+                    sb.append("OR Language = '");
+                    sb.append(languages[i]);
+                    sb.append("' ");
+                }
+                sb.append(") speakers ");
+                sb.append("ON c.Code = speakers.CountryCode ");
+                sb.append("GROUP BY speakers.Language ");
+                sb.append("ORDER BY number_of_speakers DESC;");
+                // Create string for SQL statement
+                String strSelect = sb.toString();
+                // Execute SQL statement
+                ResultSet rset = stmt.executeQuery(strSelect);
+                System.out.printf("%-25s %-18s %-31s%n", "Language", "Number of Speakers", "Percentage of Global Population");
+                while (rset.next()) {
+                    System.out.printf("%-25s %-18s %-31s%n",
+                            rset.getString("Language"),
+                            rset.getInt("number_of_speakers"),
+                            rset.getString("percent_of_population"));
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Failed to get population details");
+            }
+        } else {
+            System.out.println("Failed to print list, there was no argument provided.");
         }
     }
 }
