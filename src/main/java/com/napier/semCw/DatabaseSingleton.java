@@ -215,8 +215,9 @@ public class DatabaseSingleton {
                                 sortedList.get(i).region,
                                 sortedList.get(i).population,
                                 sortedList.get(i).capitalID);
+                    } else {
+                        System.out.println("Missing element!");
                     }
-                    System.out.println("Missing elements!");
                 }
             } else if (n > sortedList.size()) {
                 System.out.println("There are only " + sortedList.size() + " cities stored in the database.");
@@ -947,8 +948,8 @@ public class DatabaseSingleton {
      * @return list of top n populated capital cities in a continent
      */
     public ArrayList<City> topNCapitalCitiesInContinent(String continentName, int n) {
-        if (continentName == null || continentName == "") {
-            System.out.println("No region name.");
+        if (continentName == null || continentName.equals("")) {
+            System.out.println("No continent name.");
             return null;
         } else if (n <= 0) {
             System.out.println("No valid N, must be above 0.");
@@ -1104,8 +1105,8 @@ public class DatabaseSingleton {
 
         if(n<=0)
         {
-           System.out.println("N must be bigger then 0.");
-           return null;
+            System.out.println("N must be bigger then 0.");
+            return null;
         }
 
         try {
@@ -1142,7 +1143,7 @@ public class DatabaseSingleton {
             System.out.printf("%-13s %-44s %-10s %n", "Continent", "Name", "Population");
             for (Country c : countries)
             {
-             System.out.printf("%-13s %-44s %-10s %n", c.getContinent(), c.getName(), c.getPopulation());
+                System.out.printf("%-13s %-44s %-10s %n", c.getContinent(), c.getName(), c.getPopulation());
             }
             return countries;
 
@@ -1176,7 +1177,7 @@ public class DatabaseSingleton {
             // Create string for SQL statement
             String strSelect =
                     "SELECT * "
-                            + "FROM world.country "
+                            + "FROM world.city "
                             + "ORDER BY `Population` desc limit " + n;
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
@@ -1240,8 +1241,8 @@ public class DatabaseSingleton {
             // Create string for SQL statement
             String strSelect =
                     "SELECT  world.country.continent, world.city.Name, world.city.Population"
-                            + "FROM world.country JOIN world.city ON (`Code` = `CountryCode`)"
-                            + "WHERE `Continent` = '" + continent
+                            + " FROM world.country JOIN world.city ON (`Code` = `CountryCode`)"
+                            + " WHERE `Continent` = '" + continent
                             + "' ORDER BY world.city.Population desc limit " + n;
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
@@ -1305,7 +1306,7 @@ public class DatabaseSingleton {
                     "SELECT * "
                             + "FROM world.country JOIN world.city ON (`Code` = `CountryCode`) "
                             + "WHERE world.country.Region = '" + regionName
-                            + "' ORDER BY world.city.Population` desc limit" + n;
+                            + "' ORDER BY world.city.Population desc limit " + n;
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             ArrayList<City> cities = new ArrayList<City>();
@@ -1367,7 +1368,7 @@ public class DatabaseSingleton {
                     "SELECT * "
                             + "FROM world.country JOIN world.city ON (`Code` = `CountryCode`) "
                             + "WHERE world.country.Name = '" + countryName
-                            + "' ORDER BY world.city.Population` desc limit" + n;
+                            + "' ORDER BY world.city.Population desc limit " + n;
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             ArrayList<City> cities = new ArrayList<City>();
@@ -1430,8 +1431,8 @@ public class DatabaseSingleton {
             String strSelect =
                     "SELECT * "
                             + "FROM world.country"
-                            + "WHERE `Region` = '" + regionName
-                            + " 'ORDER BY world.city.Population` desc " + n;
+                            + " WHERE Region = '" + regionName
+                            + "' ORDER BY Population desc limit " + n;
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             ArrayList<Country> countries = new ArrayList<>();
@@ -1474,7 +1475,7 @@ public class DatabaseSingleton {
 
     public ArrayList<City> printTopNPopulatedCitiesPerDistrict(String districtName, int n) {
 
-        if(districtName == null ||  districtName =="")
+        if(districtName == null || districtName.equals(""))
         {
             System.out.println("District input is nonexistent.");
             return null;
@@ -1494,7 +1495,7 @@ public class DatabaseSingleton {
                     "SELECT * "
                             + "FROM world.city "
                             + "WHERE `District` = '" + districtName
-                            + " 'ORDER BY world.city.Population` desc " + n;
+                            + "' ORDER BY world.city.Population desc limit " + n;
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             ArrayList<City> cities = new ArrayList<>();
@@ -1586,9 +1587,9 @@ public class DatabaseSingleton {
             // Create string for SQL statement
             String strSelect =
                     "SELECT * "
-                            + "FROM world.country JOIN world.city ON (`world.country.Capital` = `world.city.ID`)"
+                            + "FROM world.country JOIN world.city ON (world.country.Capital = world.city.ID)"
                             + " WHERE `Continent` = '" + continent
-                            + " 'ORDER `Population` desc";
+                            + " 'ORDER BY city.Population desc";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             ArrayList<City> cities = new ArrayList<>();

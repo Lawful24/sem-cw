@@ -1,5 +1,7 @@
 package com.napier.semCw;
 
+import java.util.ArrayList;
+
 public class App {
     public static void main(String[] args) {
         DatabaseSingleton db = DatabaseSingleton.getInstance();
@@ -11,7 +13,8 @@ public class App {
             db.connect(args[0], Integer.parseInt(args[1]));
         }
 
-        db.printNumOfSpeakersFromList(new String[] {"Chinese", "English", "Hindi", "Spanish", "Arabic"});
+        ArrayList<City> cities = db.topNCapitalCitiesInContinent("Europe", 5);
+        db.printAllCities(cities);
 
         // Disconnect from database
         db.disconnect();
