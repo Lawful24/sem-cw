@@ -13,8 +13,7 @@ public class App {
             db.connect(args[0], Integer.parseInt(args[1]));
         }
 
-        ArrayList<City> cities = db.topNCapitalCitiesInContinent("Europe", 5);
-        db.printAllCities(cities);
+        db.printTopNPopulatedCitiesPerDistrict("Texas", 5);
 
         // Disconnect from database
         db.disconnect();
