@@ -1,4 +1,6 @@
-# README
+# Global population reports
+
+An Edinburgh Napier University coursework project for Software Engineering Methods.
 
 ![workflow](https://github.com/Lawful24/sem-cw/actions/workflows/main.yml/badge.svg)
 [![LICENSE](https://img.shields.io/github/license/Lawful24/sem-cw.svg?style=flat)](https://github.com/Lawful24/sem-cw/blob/master/LICENSE)
