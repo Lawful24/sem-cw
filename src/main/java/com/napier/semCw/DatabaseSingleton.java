@@ -1708,4 +1708,214 @@ public class DatabaseSingleton {
             System.out.println("Failed to print list, there was no argument provided.");
         }
     }
+
+    /**
+     * view the population of people, people living in cities,
+     * 	and people not living in cites in each region
+     */
+    public void peopleICNCinEachRegion(){
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    " select t.region as Region, t.population as Population, p.`people in cities` as `People living in cities`, t.population-p.`people in cities` as \n" +
+                            " `People not living in cities`\n" +
+                            " from \n" +
+                            " (select world.country.`Region` as region ,sum(world.country.`Population`) as `population`\n" +
+                            " from world.country\n" +
+                            " group by world.country.`Region`\n" +
+                            " ) as t\n" +
+                            " join \n" +
+                            " (select sum(world.city.`Population`) as `people in cities`, world.country.`Region` as region\n" +
+                            " from world.city\n" +
+                            " join world.country on (world.city.`CountryCode`=world.country.`Code`)\n" +
+                            " group by  world.country.`Region` ) as p\n" +
+                            " on (t.region=p.region) ";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract language information
+            System.out.printf("%-25s %-25s %-25s %-25s%n", "Region", "Population","People living in cities","People not living in cities");
+            while (rset.next()) {
+                if(rset.getString("Region").isEmpty() || rset.getString("Region")==null) {System.out.println("No Region."); }
+                else if(rset.getInt("Population")<=0){System.out.println("No Population");}
+                else if(rset.getInt("People living in cities")<=0){System.out.println("No Population living in cities");}
+                else  if(rset.getInt("People not living in cities")<=0) {System.out.println("No Population not living in cities");}
+                System.out.printf("%-25s %-25s %-25s %-25s%n", rset.getString("Region"), rset.getInt("Population"),rset.getInt("People living in cities"),rset.getInt("People not living in cities"));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get data");
+
+        }
+    }
+
+    /**
+     * view the population of people, people living in cities,
+     * 	and people not living in cites in each continent
+     */
+    public void peopleICNCinEachContinent(){
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    " select t.continent as Continent,t.population as Population,p.`people in cities` as `People living in cities`,t.population-p.`people in cities` as \n" +
+                            "`People not living in cities`\n" +
+                            "from( \n" +
+                            "select world.country.`Continent` as continent ,sum(world.country.`Population`) as `population`\n" +
+                            "from world.country\n" +
+                            "group by world.country.`Continent`\n" +
+                            ") as t\n" +
+                            "join \n" +
+                            "(select sum(world.city.`Population`) as `people in cities`, world.country.`Continent` \n" +
+                            "as continent\n" +
+                            "from world.city\n" +
+                            "join world.country on (world.city.`CountryCode`=world.country.`Code`)\n" +
+                            "group by  world.country.`Continent` ) \n" +
+                            "as p\n" +
+                            "on (t.continent=p.continent) ";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract language information
+            System.out.printf("%-25s %-25s %-25s %-25s%n", "Continent", "Population","People living in cities","People not living in cities");
+            while (rset.next()) {
+                if(rset.getString("Continent").isEmpty() || rset.getString("Continent")==null) {System.out.println("No Continent."); }
+                else if(rset.getLong("Population")<=0){System.out.println("No Population");}
+                else if(rset.getLong("People living in cities")<=0){System.out.println("No Population living in cities");}
+                else  if(rset.getLong("People not living in cities")<=0) {System.out.println("No Population not living in cities");}
+                System.out.printf("%-25s %-25s %-25s %-25s%n", rset.getString("Continent"), rset.getLong("Population"),rset.getLong("People living in cities"),rset.getLong("People not living in cities"));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get data");
+
+        }
+    }
+
+    /**
+     *
+     */
+    public void continentPopulationReport(){
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    " select t.continent as `Continent`,t.population as `Population`,p.`people in cities`/t.population as `percentage of people living in cities`,(t.population - p.`people in cities`)/t.population as `percentage of people not living in cities` "+
+                            "from( \n" +
+                            "select world.country.Continent as continent ,sum(world.country.Population) as population\n" +
+                            "from world.country\n" +
+                            "group by world.country.Continent\n" +
+                            ") as t\n" +
+                            "join \n" +
+                            "(select sum(world.city.Population) as `people in cities`, world.country.Continent \n" +
+                            "as continent\n" +
+                            "from world.city\n" +
+                            "join world.country on (world.city.CountryCode=world.country.Code)\n" +
+                            "group by  world.country.Continent ) \n" +
+                            "as p\n" +
+                            "on (t.continent=p.continent) ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract language information
+            System.out.printf("%-25s %-25s %-25s %-25s%n", "Continent", "Population","Percentage of people living in cities","Percentage of people not living in cities");
+            while (rset.next()) {
+                if(rset.getString("Continent").isEmpty() || rset.getString("Continent")==null) {System.out.println("No continent."); }
+                else if(rset.getLong("Population")<=0){System.out.println("No Population");}
+                else if(rset.getDouble("percentage of people living in cities")<=0){System.out.println("No Population living in cities");}
+                else  if(rset.getDouble("percentage of people not living in cities")<=0) {System.out.println("No Population not living in cities");}
+                System.out.printf("%-25s %-25s %-25s %-25s%n", rset.getString("Continent"), rset.getLong("Population"),rset.getDouble("percentage of people living in cities"),rset.getDouble("percentage of people not living in cities"));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get data");
+
+        }
+    }
+
+
+
+    public void countryPopulationReport(){
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    " select t.country as `Country` , t.population as `Population`,p.`people in cities`/t.population as `Percentage of people living in cities`, (t.population-`people in cities`)/t.population as `Percentage of people not living in cities` "+
+                            " from ( "+
+                            " select world.country.Name as country ,world.country.Population "+
+                            " as population, world.country.Code as code "+
+                            " from world.country "+
+                            " group by world.country.Code) as t "+
+                            " join "+
+                            " ( "+
+                            " select sum(world.city.Population) as `people in cities`, "+
+                            " world.country.Code as code "+
+                            " from world.city "+
+                            " join world.country on (world.city.CountryCode=world.country.Code) "+
+                            " group by world.country.Code "+
+                            " ) as p on (p.code=t.code) ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract language information
+            System.out.printf("%-25s %-25s %-25s %-25s%n", "Country", "Population","Percentage of people living in cities","Percentage of people not living in cities");
+            while (rset.next()) {
+                if(rset.getString("Country").isEmpty() || rset.getString("Country")==null) {System.out.println("No country."); }
+                else if(rset.getLong("Population")<=0){System.out.println("No Population");}
+                else if(rset.getDouble("Percentage of people living in cities")<=0){System.out.println("No Population living in cities");}
+                else  if(rset.getDouble("Percentage of people not living in cities")<=0) {System.out.println("No Population not living in cities");}
+                System.out.printf("%-25s %-25s %-25s %-25s%n", rset.getString("Country"), rset.getLong("Population"),rset.getDouble("Percentage of people living in cities"),rset.getDouble("Percentage of people not living in cities"));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get data");
+
+        }
+    }
+
+
+
+    public void regionPopulationReport(){
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    " select t.region as `Region`, t.population as `Population`, p.`people in cities`/t.population as `percentage of people living in cities`, (t.population-p.`people in cities`)/t.population as `percentage of people not living in cities` "+
+                            " from \n" +
+                            " (select world.country.Region as region ,sum(world.country.Population) as population\n" +
+                            " from world.country\n" +
+                            " group by world.country.Region\n" +
+                            " ) as t\n" +
+                            " join \n" +
+                            " (select sum(world.city.Population) as `people in cities`, world.country.Region as region\n" +
+                            " from world.city\n" +
+                            " join world.country on (world.city.CountryCode=world.country.Code)\n" +
+                            " group by  world.country.Region ) as p\n" +
+                            " on (t.region=p.region) ";
+// Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract language information
+            System.out.printf("%-25s %-25s %-25s %-25s%n", "Region", "Population","Percentage of people living in cities","Percentage of people not living in cities");
+            while (rset.next()) {
+                if(rset.getString("Region").isEmpty() || rset.getString("Region")==null) {System.out.println("No region."); }
+                else if(rset.getLong("Population")<=0){System.out.println("No Population");}
+                else if(rset.getDouble("Percentage of people living in cities")<=0){System.out.println("No Population living in cities");}
+                else  if(rset.getDouble("Percentage of people not living in cities")<=0) {System.out.println("No Population not living in cities");}
+                System.out.printf("%-25s %-25s %-25s %-25s%n", rset.getString("Region"), rset.getLong("Population"),rset.getDouble("percentage of people living in cities"),rset.getDouble("percentage of people not living in cities"));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get data");
+
+        }
+    }
 }
