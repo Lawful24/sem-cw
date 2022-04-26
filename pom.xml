@@ -47,7 +47,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <finalName>seMethods</finalName>
+                    <finalName>semCW</finalName>
                     <archive>
                         <manifest>
                             <mainClass>com.napier.semCw.App</mainClass>
