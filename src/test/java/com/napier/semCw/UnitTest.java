@@ -384,9 +384,27 @@ public class UnitTest {
      * @Tests for topNCapitalCitiesInWorld Method
      */
    @Test
-    void topNCapitalCitiesInWorldInvalidNumber(){
-        assertNull(db.topNCapitalCitiesInWorld(-3));
-    };
+   void topNCapitalCitiesInWorldInvalidNumber(){
+       assertNull(db.topNCapitalCitiesInWorld(-3));
+   }
 
+   @Test
+   void printNumOfSpeakersFromListTestNull() {
+       db.printNumOfSpeakersFromList(null);
+   }
 
+   @Test
+   void printNumOfSpeakersFromListTestEmpty() {
+       db.printNumOfSpeakersFromList(new String[] {});
+   }
+
+   @Test
+   void printNumOfSpeakersFromListTestOnlyOne() {
+       db.printNumOfSpeakersFromList(new String[] {"Arabic"});
+   }
+
+   @Test
+   void printNumOfSpeakersFromListTestInvalidLanguage() {
+       db.printNumOfSpeakersFromList(new String[] {"Latin"});
+   }
 }

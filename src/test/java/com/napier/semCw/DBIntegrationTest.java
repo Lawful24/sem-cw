@@ -488,13 +488,37 @@ public class DBIntegrationTest {
      */
     @Test
     void TestpeopleICNCinEachCountry(){
-        db.peopleICNCinEachCountry();
-    };
 
+        db.peopleICNCinEachCountry();
+
+    };
+    /**
+     * @Test  peopleICNCinEachRegion Method
+     */
+    @Test
+    void TestpeopleICNCinEachRegion(){
+
+        db.peopleICNCinEachRegion();
+
+    };
+    /**
+     * @Test  peopleICNCinEachContinent Method
+     */
+    @Test
+    void TestpeopleICNCinEachContinent(){
+
+        db.peopleICNCinEachContinent();
+
+    };
 
     //issue 15
     @Test
     void printAllCitiesFromLargestToSmallest() {
         assertNotNull(db.printAllCitiesFromLargestToSmallest());
+    }
+
+    @Test
+    void printNumOfSpeakersFromList(){
+        db.printNumOfSpeakersFromList(new String[] {"Chinese", "English", "Hindi", "Spanish", "Arabic"});
     }
 }

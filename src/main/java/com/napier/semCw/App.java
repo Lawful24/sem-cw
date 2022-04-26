@@ -13,9 +13,7 @@ public class App {
             db.connect(args[0], Integer.parseInt(args[1]));
         }
 
-        // Collect all languages from the database
-        ArrayList<Language> languages = db.getAllLanguagesFromDatabase();
-        db.printAllLanguages(languages);
+        db.printTopNPopulatedCitiesPerDistrict("Texas", 5);
 
         // Disconnect from database
         db.disconnect();
