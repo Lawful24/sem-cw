@@ -19,6 +19,12 @@ jobs:
           distribution: 'adopt'
       - name: Unit Tests
         run: mvn -Dtest=com.napier.semCw.UnitTest test
+      - name: CodeCov
+        uses: codecov/codecov-action@v2
+        with:
+          directory: ./target/site/jacoco
+          flags: Integration Tests
+          verbose: true
 
   IntegrationTests:
     name: Integration Tests

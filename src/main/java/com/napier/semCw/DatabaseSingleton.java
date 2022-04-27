@@ -3,6 +3,11 @@ package com.napier.semCw;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * A collection of all features.
+ *
+ * @author Maté, Maria, Petya, László
+ */
 public class DatabaseSingleton {
     private static DatabaseSingleton instance;
 
