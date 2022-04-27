@@ -23,7 +23,7 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           directory: ./target/site/jacoco
-          flags: Integration Tests
+          flags: Unit Tests
           verbose: true
 
   IntegrationTests:
